@@ -15,6 +15,8 @@ declare module "lucide-react" {
   export const ArrowUp: LucideIcon;
   export const Bath: LucideIcon;
   export const BedDouble: LucideIcon;
+  export const List: LucideIcon;
+  export const Map: LucideIcon;
   export const Menu: LucideIcon;
   export const Mic: LucideIcon;
   export const MapPin: LucideIcon;

@@ -1,6 +1,7 @@
 import { FeaturedHomes } from "@/sections/FeaturedHomes";
 import { Hero } from "@/sections/Hero";
 import { HomesForYou } from "@/sections/HomesForYou";
+import { MapListing } from "@/sections/MapListing";
 import { SearchBar } from "@/sections/SearchBar";
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <SearchBar />
       <FeaturedHomes />
       <HomesForYou />
+      <MapListing />
     </main>
   );
 }
