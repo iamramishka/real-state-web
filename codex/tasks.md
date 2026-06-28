@@ -26,12 +26,12 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 | X-013 | Suggestion chips + filters | in_review | feature/codex-search | `components/ui/Chip.tsx`, `data/suggestions.ts`, `data/filters.ts` | keyboard, scroll |
 | X-014 | PropertyCard + CardGrid | in_review | feature/codex-property-cards | `components/cards/PropertyCard.tsx` | reuse, formatting |
 | X-015 | Featured homes + Homes for you | in_review | feature/codex-property-cards | `sections/FeaturedHomes.tsx`, `sections/HomesForYou.tsx`, `data/properties.ts` | grid reflow |
-| X-016 | Listing + Map split | in_review | feature/codex-map | `sections/MapListing.tsx`, `components/MapView.tsx` | a11y list, no CLS |
-| X-017 | Smarter-way-to-sell band | blocked | feature/codex-sell | `sections/FeatureBand.tsx` | heading hierarchy |
-| X-018 | Neighborhood discovery trio | blocked | feature/codex-discovery | `sections/Discovery.tsx`, `data/discovery.ts` | link semantics |
-| X-019 | Agent section | blocked | feature/codex-agents | `sections/Agents.tsx`, `components/cards/AgentCard.tsx`, `data/agents.ts` | avatar alt, ratings text |
-| X-020 | News + Trends/Tips grids | blocked | feature/codex-news | `sections/News.tsx`, `sections/Trends.tsx`, `data/news.ts`, `data/articles.ts` | time element |
-| X-021 | CTA band + Footer | blocked | feature/codex-cta-footer | `sections/CTABand.tsx`, `layouts/Footer.tsx`, `data/footer.ts` | external link rel, contrast |
+| X-016 | Listing + Map split | merged | feature/codex-map | `sections/MapListing.tsx`, `components/MapView.tsx` | a11y list, no CLS |
+| X-017 | Smarter-way-to-sell band | todo | feature/codex-sell | `sections/FeatureBand.tsx` | heading hierarchy |
+| X-018 | Neighbourhood discovery trio | todo | feature/codex-discovery | `sections/Discovery.tsx`, `data/discovery.ts` | link semantics |
+| X-019 | Agent section | todo | feature/codex-agents | `sections/Agents.tsx`, `components/cards/AgentCard.tsx`, `data/agents.ts` | avatar alt, ratings text |
+| X-020 | News + Trends/Tips grids | todo | feature/codex-news | `sections/News.tsx`, `sections/Trends.tsx`, `data/news.ts`, `data/articles.ts` | time element |
+| X-021 | CTA band + Footer | todo | feature/codex-cta-footer | `sections/CTABand.tsx`, `layouts/Footer.tsx`, `data/footer.ts` | external link rel, contrast |
 
 ## Phase 3 — Hardening
 
@@ -54,4 +54,123 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 - X-013 — Added suggestion chips and property filter chips on `feature/codex-search`: `data/suggestions.ts` supplies the 8 conversational search suggestions from the UX copy, `data/filters.ts` supplies the 6 category filters, `components/ui/Chip.tsx` exports reusable suggestion/filter chip rows with keyboard-friendly button semantics, horizontal mobile scrolling, `aria-pressed` filter state, and labelled live-region feedback, and `sections/SearchBar.tsx` renders both rows under the search form. `tests/e2e/home.spec.ts` now covers suggestion keyboard activation, filter toggling, chip visibility, and responsive no-overflow checks. Commands run: `npm run format`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run test:e2e`, `npm run test:a11y`, `npm audit --audit-level=moderate`. Result: all checks passed; e2e 20/20 including 8 responsive widths, a11y 3/3, unit 1/1, audit 0 vulnerabilities. Note: build/e2e/a11y printed the local Windows optional SWC binary warning but completed successfully. Next: review X-013, then continue with X-014 PropertyCard + CardGrid.
 - X-014 — Added `PropertyCard` and `CardGrid` on `feature/codex-property-cards`: `components/cards/PropertyCard.tsx` exports typed card props matching the property data shape, formats cents-based prices and sqft values, renders optimized listing imagery, semantic detail links, accessible beds/baths/sqft meta text, and a reusable responsive grid. Updated `types/lucide-react.d.ts` with the additional card icons required by the local lucide typings workaround. Commands run: `npm install`, `npm run format`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run test:e2e`, `npm run test:a11y`, `npm audit --audit-level=moderate`. Result: all checks passed; e2e 20/20 including 8 responsive widths, a11y 3/3, unit 1/1, audit 0 vulnerabilities. Next: review X-014, then continue with X-015 Featured homes + Homes for you.
 - X-015 — Added Featured homes and Homes for you on `feature/codex-property-cards`: `data/properties.ts` defines the typed mock property dataset with 6 featured properties and 4 homes-for-you properties, `sections/FeaturedHomes.tsx` and `sections/HomesForYou.tsx` render reusable `PropertyCard` grids, `app/page.tsx` mounts both sections, `public/images/properties/**` stores six generated local listing images, and `tests/e2e/home.spec.ts` verifies section headings, card image alt text, card title, detail link href, and responsive no-overflow coverage. Property images were generated with the built-in image tool as a six-panel photorealistic residential listing contact sheet, then cropped locally to 16:10 card assets. Commands run: `npm run format`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run test:e2e`, `npm run test:a11y`, `npm audit --audit-level=moderate`. Result: all checks passed; e2e 20/20 including 8 responsive widths, a11y 3/3, unit 1/1, audit 0 vulnerabilities. Next: review X-015, then continue with X-016 Listing + Map split.
-- X-016 — Added the listing + map split on `feature/codex-map`: `sections/MapListing.tsx` renders the "5 Homes for sale" panel with Save search, mobile Show map/Show list toggle, keyboard-accessible property list using reusable `PropertyCard`, and responsive list/map layout; `components/MapView.tsx` renders a labelled static map surface with keyboard-reachable detail-link pins and list-alternative text; `app/page.tsx` mounts the section; `types/lucide-react.d.ts` adds the new map/list icon declarations; and `tests/e2e/home.spec.ts` covers the map label, pin link, save-search control, and mobile toggle. Commands run: `npm install`, `npm run format`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run test:e2e`, `npm run test:a11y`, `npm audit --audit-level=moderate`. Result: all checks passed; e2e 23/23 including 8 responsive widths, a11y 3/3, unit 1/1, audit 0 vulnerabilities. Next: review X-016, then continue with X-017 Smarter-way-to-sell band.
+- X-016 — Added the listing + map split on `feature/codex-map`: `sections/MapListing.tsx` renders the "5 Homes for sale" panel with Save search, mobile Show map/Show list toggle, keyboard-accessible property list using reusable `PropertyCard`, and responsive list/map layout; `components/MapView.tsx` renders a labelled static map surface with keyboard-reachable detail-link pins and list-alternative text; `app/page.tsx` mounts the section; `types/lucide-react.d.ts` adds the new map/list icon declarations; and `tests/e2e/home.spec.ts` covers the map label, pin link, save-search control, and mobile toggle. Commands run: `npm install`, `npm run format`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run test:e2e`, `npm run test:a11y`, `npm audit --audit-level=moderate`. Result: all checks passed; e2e 23/23 including 8 responsive widths, a11y 3/3, unit 1/1, audit 0 vulnerabilities. **MERGED into dev 2026-06-29.**
+
+---
+
+## X-017 Brief — Smarter-way-to-sell band
+
+**Branch:** `feature/codex-sell` (exists; branch off current `dev`)
+**Files to create:** `sections/FeatureBand.tsx`
+**Files to update:** `app/page.tsx` (mount after MapListing), `tests/e2e/home.spec.ts`
+**Allowed:** `sections/FeatureBand.tsx`, `app/page.tsx`, `tests/e2e/home.spec.ts`
+**Forbidden:** `plan.md`, `docs/**`, `audits/**`, `claude/**`, `agents/**`
+
+**Content (from `docs/ux-copy.md §8`):**
+- Heading: "The smarter way to sell your home." (display size, two lines)
+- Body: "We combine sharp market insight, expert staging advice, and a network of serious buyers to get you the best result — faster and with less stress than the traditional route."
+- 4 bullet points: "Suggested listing price within 48 hours" · "Professional photography included" · "Access to pre-qualified buyers" · "Dedicated agent from listing to close"
+- CTA link: "Learn more" `href="/sell"` `aria-label="Learn more about selling with Nordhaven"`
+- Feature image: generate a staged open-plan living room (`public/images/sell-feature.png`). Alt: "A beautifully staged open-plan living room with natural light streaming through large windows."
+
+**Design:**
+- Background: `bg-bg-soft` (alternating rhythm with HomesForYou `bg-bg-soft` already used — consider `bg-surface` or `bg-bg` for contrast; check page context)
+- Layout: two-column on `lg:` — text/bullets/CTA left, image right (or reversed). Stacks single-column on mobile.
+- Heading: `font-display text-h1 font-semibold text-balance text-ink`
+- Bullets: `<ul>` with `<li>` — use accent checkmark icon (`Check` from lucide) `aria-hidden="true"` beside each item
+- CTA: `<Link>` styled as secondary Button (not primary — page already has primary CTAs in hero)
+- Image: `<Image>` with `priority={false}`, `sizes`, `aspect-[4/3]` or `aspect-[16/10]`, `rounded-xl border border-line shadow-soft`
+- Section: `<section aria-labelledby="sell-band-title">` with `<h2 id="sell-band-title">`
+- RSC only — no `"use client"` needed
+
+**Verify:**
+```
+npm run format && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e && npm run test:a11y && npm audit --audit-level=moderate
+```
+All must pass. Add E2E: assert section heading "The smarter way to sell your home." visible + CTA link href="/sell".
+
+Mark status `in_review` and write handoff note when done.
+
+---
+
+## X-018 Brief — Neighbourhood discovery trio
+
+**Branch:** `feature/codex-discovery` (branch off `dev` after X-017 merged)
+**Files to create:** `sections/Discovery.tsx`, `data/discovery.ts`
+**Files to update:** `app/page.tsx`, `tests/e2e/home.spec.ts`
+
+**Content (from `docs/ux-copy.md §9`):**
+- Heading: "Explore your next neighbourhood"
+- Subhead: "Find the area that fits your life — schools, commute, cafés, and everything in between."
+- Three cards:
+  | Card | Heading | Subtext | href |
+  |---|---|---|---|
+  | Search neighbourhoods | Search neighbourhoods | Explore lifestyle, schools, and walkability scores. | /neighbourhoods |
+  | New homes | New builds near you | Discover newly completed developments before they sell out. | /new-homes |
+  | Agent directory | Meet your agent | Browse our network of local specialists by area. | /agents |
+- Each card CTA: "Explore" `aria-label="Explore {card heading}"`
+- Each card image: generate distinct neighbourhood/property images (`public/images/discovery/neighbourhoods.png`, `new-homes.png`, `agents.png`)
+
+**Design:**
+- Section: `<section aria-labelledby="discovery-title">` RSC
+- Three-column grid `lg:grid-cols-3`, stacks to 1 col mobile, 2 col `md:`
+- Cards: `<article>` with image top, heading, subtext, Explore link — use `border-line bg-surface shadow-soft rounded-xl` card treatment
+- CTA link: `focus-visible:ring-accent`, `rel="noopener noreferrer"` not needed (internal links)
+- Background: `bg-bg section-y`
+
+---
+
+## X-019 Brief — Agent section
+
+**Branch:** `feature/codex-agents` (branch off `dev` after X-018 merged)
+**Files to create:** `sections/Agents.tsx`, `components/cards/AgentCard.tsx`, `data/agents.ts`
+**Files to update:** `app/page.tsx`, `tests/e2e/home.spec.ts`
+
+**Content (from `docs/ux-copy.md §10`, `docs/data-shapes.md`):**
+- Section heading: "Meet our expert agents"
+- Subhead: "Local knowledge, honest advice, and a track record you can trust."
+- 3–4 mock agents: name, title (e.g. "Senior Agent"), avatar image, rating (1–5 float), review count, areas served
+- `AgentCard`: avatar `<Image>` with `rounded-full`, name `<h3>`, title, star rating visually + screen reader text `"{n} out of 5 stars — {m} reviews"`, Contact button `aria-label="Contact {agent name}"` `href="/agents/{slug}"`
+- Empty state: "Agent profiles are loading. If they don't appear, please refresh the page."
+
+**Design:**
+- `bg-bg-soft section-y`; grid `md:grid-cols-2 xl:grid-cols-4`
+- Stars: render filled/empty with `aria-hidden="true"` spans or SVGs; wrap in `<span class="sr-only">` for accessible text
+- RSC (no `"use client"`)
+
+---
+
+## X-020 Brief — News + Trends/Tips grids
+
+**Branch:** `feature/codex-news` (branch off `dev` after X-019 merged)
+**Files to create:** `sections/News.tsx`, `sections/Trends.tsx`, `data/news.ts`, `data/articles.ts`, `components/cards/NewsCard.tsx`, `components/cards/ArticleCard.tsx`
+**Files to update:** `app/page.tsx`, `tests/e2e/home.spec.ts`
+
+**Content (from `docs/ux-copy.md §11, §12`):**
+- News heading: "Real estate news"; subhead: "Stay up to date with the latest developments, market shifts, and practical guides."
+- 3 mock news articles: title, excerpt, date, image, slug. Read more link `aria-label="Read: {title}"`. Date: `<time datetime="YYYY-MM-DD">Month D, YYYY</time>`
+- Trends heading: "Discover trends, tips, and property inspiration"; subhead from ux-copy.md
+- 3–4 mock articles/tips. "See all learning" `aria-label="See all learning resources"`. Card CTA "Read more" `aria-label="Read more: {title}"`
+- Empty states per ux-copy.md
+
+**Design:**
+- News: `bg-bg section-y`; 3-col grid `lg:grid-cols-3`
+- Trends: `bg-bg-soft section-y`; 3–4 col grid
+- Both RSC
+
+---
+
+## X-021 Brief — CTA band + Footer
+
+**Branch:** `feature/codex-cta-footer` (branch off `dev` after X-020 merged)
+**Files to create:** `sections/CTABand.tsx`, `layouts/Footer.tsx`, `data/footer.ts`
+**Files to update:** `app/layout.tsx` (mount Footer), `app/page.tsx` (mount CTABand), `tests/e2e/home.spec.ts`
+
+**Content (from `docs/ux-copy.md §13, §14`):**
+- CTA Band: heading "Ready to find your next home?", subhead "Search thousands of listings with a single, natural-language search.", primary button "Start your search" `href="/buy"` `aria-label="Start searching for a home"`. Background `bg-ink text-on-ink` (dark section — only on the homepage). RSC.
+- Footer: brand "Nordhaven", tagline "Find your place.", 5 nav columns per ux-copy.md §14. Newsletter form: label "Stay in the loop", email input, Subscribe button. Copyright "© 2026 Nordhaven. All rights reserved."
+- Newsletter: `"use client"` scoped; Zod email validation; success/error messages per ux-copy.md
+- All footer external-ish links: `rel="noopener noreferrer"` only if truly external; internal links do not need it
+- `<footer>` landmark, `<nav aria-label="Footer navigation">` per column group
+
+**Security:** newsletter form must use Zod (`z.string().email()`); no `dangerouslySetInnerHTML`; contrast on dark CTA band must pass WCAG AA (`--on-ink` on `--ink` is pre-validated in design system)
