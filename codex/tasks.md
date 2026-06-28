@@ -11,7 +11,7 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 | ID | Task | Status | Branch | Worktree | Allowed files | Forbidden | Verify |
 |---|---|---|---|---|---|---|---|
 | X-001 | Scaffold Next.js 15 + TS + Tailwind v4 | in_review | feature/codex-setup | ../worktrees/codex-frontend | `package.json`, configs, `app/`, `styles/` | `plan.md`, `docs/**` | `npm run build` |
-| X-002 | Install shadcn/ui + base UI primitives | blocked | feature/codex-setup | ../worktrees/codex-frontend | `components/ui/**`, configs | docs | `npm run lint` |
+| X-002 | Install shadcn/ui + base UI primitives | in_review | feature/codex-setup | ../worktrees/codex-frontend | `components/ui/**`, configs | docs | `npm run lint` |
 | X-003 | Add ESLint/Prettier/Vitest/Playwright + scripts | blocked | feature/codex-setup | ../worktrees/codex-frontend | configs, `tests/**`, `package.json` | docs | `npm run lint && npm run test` |
 | X-004 | Implement design tokens in Tailwind (from `docs/design-system.md`) | blocked | feature/codex-tokens | ../worktrees/codex-frontend | `styles/**`, tailwind config | `docs/**` | visual + `npm run build` |
 
@@ -43,3 +43,4 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 
 ## Handoff log
 - X-001 — Scaffolded Next.js 15.5.19 App Router with strict TypeScript, Tailwind CSS v4, ESLint, Prettier, Vitest command wiring, root app layout/page, and global styles in `../worktrees/codex-frontend` on `feature/codex-setup`. Commands run: `npm install`, `npm audit --audit-level=moderate` (clean after PostCSS override), `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`. Result: all requested checks passed; test command currently has no test files until X-003. Next: review X-001, then continue with X-002/X-003.
+- X-002 — Installed shadcn/Radix primitive dependencies and added `components.json`, `lib/utils.ts`, and base primitives in `components/ui/**` (`Button`, `Input`, `Label`, `Textarea`, `Card`, `Badge`, `Separator`, `Dialog`, `Sheet`) in `../worktrees/codex-frontend` on `feature/codex-setup`. Commands run: `npm install`, `npm audit --audit-level=moderate`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`. Result: all checks passed; test command currently has no test files until X-003. Next: review X-002, then continue with X-003.
