@@ -49,6 +49,22 @@ test("home page renders the hero and search content", async ({ page }) => {
       })
       .first(),
   ).toHaveAttribute("href", "/property/laurel-canyon-glass-residence");
+  await expect(
+    page.getByRole("heading", { name: "5 Homes for sale" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Save this search" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("group", {
+      name: "Map of property listings. Use the list below for an accessible alternative.",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: "$2.8M — 1824 Crestline Drive, Austin, TX. Tap to view details.",
+    }),
+  ).toHaveAttribute("href", "/property/laurel-canyon-glass-residence");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
@@ -96,4 +112,26 @@ test("search chips are keyboard accessible and filters toggle", async ({
   await expect(luxuryFilter).toHaveAttribute("aria-pressed", "true");
   await luxuryFilter.press("Space");
   await expect(luxuryFilter).toHaveAttribute("aria-pressed", "false");
+});
+
+test("listing map toggles on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 900 });
+  await page.goto("/");
+
+  const mapToggle = page.getByRole("button", { name: "Show map" });
+  await expect(mapToggle).toBeVisible();
+  await expect(
+    page.getByRole("group", {
+      name: "Map of property listings. Use the list below for an accessible alternative.",
+    }),
+  ).toBeHidden();
+
+  await mapToggle.click();
+
+  await expect(page.getByRole("button", { name: "Show list" })).toBeVisible();
+  await expect(
+    page.getByRole("group", {
+      name: "Map of property listings. Use the list below for an accessible alternative.",
+    }),
+  ).toBeVisible();
 });
