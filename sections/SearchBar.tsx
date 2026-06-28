@@ -1,4 +1,7 @@
 import { SearchForm } from "@/components/forms/SearchForm";
+import { FilterChipRow, SuggestionChipRow } from "@/components/ui/Chip";
+import { propertyFilters } from "@/data/filters";
+import { searchSuggestions } from "@/data/suggestions";
 
 export function SearchBar() {
   return (
@@ -10,7 +13,11 @@ export function SearchBar() {
         <h2 className="sr-only" id="search-title">
           Search homes
         </h2>
-        <SearchForm />
+        <div className="grid gap-5">
+          <SearchForm />
+          <SuggestionChipRow items={searchSuggestions} />
+          <FilterChipRow items={propertyFilters} />
+        </div>
       </div>
     </section>
   );

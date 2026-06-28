@@ -178,7 +178,12 @@ export function SearchForm() {
         </div>
       </div>
 
-      <p className="sr-only" id={statusId} role="status">
+      <p
+        aria-label="Search status"
+        className="sr-only"
+        id={statusId}
+        role="status"
+      >
         {statusMessage}
       </p>
     </form>

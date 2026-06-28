@@ -20,6 +20,14 @@ test("home page renders the hero and search content", async ({ page }) => {
     page.getByPlaceholder("e.g. 3-bedroom near a good school in Austin, TX"),
   ).toBeVisible();
   await expect(page.getByRole("button", { name: "Run search" })).toBeVisible();
+  await expect(
+    page.getByRole("button", {
+      name: "Will a king bed fit in the primary? — tap to search",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "New to market" }),
+  ).toHaveAttribute("aria-pressed", "false");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
@@ -39,7 +47,32 @@ test("search form validates and submits with keyboard", async ({ page }) => {
   await page.getByLabel("Search query").fill("Loft near transit");
   await page.keyboard.press("Enter");
 
-  await expect(page.getByRole("status")).toContainText(
-    'Rent search ready for "Loft near transit".',
+  await expect(
+    page.getByRole("status", { name: "Search status" }),
+  ).toContainText('Rent search ready for "Loft near transit".');
+});
+
+test("search chips are keyboard accessible and filters toggle", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  await page
+    .getByRole("button", {
+      name: "Will a king bed fit in the primary? — tap to search",
+    })
+    .press("Enter");
+
+  await expect(
+    page.getByRole("status", { name: "Suggestion status" }),
+  ).toContainText(
+    "Suggested search selected: Will a king bed fit in the primary bedroom.",
   );
+
+  const luxuryFilter = page.getByRole("button", { name: "Luxury" });
+  await expect(luxuryFilter).toHaveAttribute("aria-pressed", "false");
+  await luxuryFilter.press("Enter");
+  await expect(luxuryFilter).toHaveAttribute("aria-pressed", "true");
+  await luxuryFilter.press("Space");
+  await expect(luxuryFilter).toHaveAttribute("aria-pressed", "false");
 });
