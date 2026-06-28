@@ -226,7 +226,7 @@ Full definitions live in `/agents/*.md`. Summary (each file specifies Responsibi
 | 7 | QA Engineer | Test plans + specs | `tests/**`, `docs/qa-checklist.md` | Codex (specs) / Claude (plan) |
 | 8 | GitHub Worktree Controller | Branches/worktrees lifecycle | git topology | Codex |
 | 9 | GitHub Reviewer | Review PRs (no merge) | review comments/reports | Either AI |
-| 10 | Merger Review | Confirm gates → merge recommendation | merge decision | Human-supervised |
+| 10 | Merger Review | Confirm gates → perform merge | merge decision + execution | Claude |
 | 11 | Security Scanner | Dep/secret/XSS review | `audits/security-audit.md` | Either AI |
 | 12 | Performance Auditor | Lighthouse/bundle budgets | `audits/performance-audit.md` | Either AI |
 | 13 | Accessibility Auditor | axe/keyboard/contrast | `audits/accessibility-audit.md` | Either AI |
@@ -316,9 +316,15 @@ git worktree prune
 
 ## 9. GitHub Reviewer & Merger Review
 
-**Reviewer (may be another AI) — reviews only, never merges.** Checks: code quality · security · accessibility · responsiveness · SEO · performance · design consistency · folder structure · coding rules · test results. Must: leave comments, produce a review report, identify risks, request changes when needed. Must not: overwrite implementation or merge.
+**Reviewer — Claude.** Reviews every PR: code quality · security · accessibility · responsiveness · SEO · performance · design consistency · folder structure · coding rules · test results. Leaves comments, produces a review report, identifies risks, requests changes from Codex when needed. Does not edit implementation directly.
 
-**Merger Review Agent.** Reviews all reports, confirms every gate passed, confirms no file-ownership conflict, confirms no unresolved comments, confirms build passes, then makes the **final merge recommendation**. Merge only after all checks pass (human supervises the actual merge).
+**Merger Review Agent — Claude.** Once all review comments are resolved and all 12 gates pass, Claude confirms: gates green · no file-ownership conflict · no unresolved comments · build passes · then **performs the merge** (`feature/* → dev`, and `dev → main` for releases). No human approval required in the merge loop.
+
+**Merge flow:**
+1. Codex opens PR (`feature/*` → `dev`).
+2. Claude reviews → requests changes if needed → Codex fixes.
+3. All gates green → Claude merges `feature/*` into `dev`.
+4. After final release audit passes → Claude merges `dev` into `main` and pushes.
 
 ---
 
@@ -472,7 +478,8 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 | Task ID | Task Name | Status | Notes |
 |---|---|---|---|
 | C-009 | Maintain accountability table | ongoing | Updated each session |
-| C-010 | Review Codex PRs (comments only) | pending Phase 1 | One report per PR per audits/* |
+| C-010 | Review + merge Codex PRs | pending Phase 1 | Review → gates green → Claude merges feature→dev |
+| C-011 | Final release merge (dev→main) | pending Phase 3 | After final-release-audit passes → Claude merges dev→main |
 
 ---
 

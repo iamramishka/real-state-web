@@ -18,7 +18,8 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
 | C-007 | Write UX copy for all 15 sections | done | `docs/ux-copy.md` | `sections/**` | Copy complete, all 15 sections |
 | C-008 | Define typed data shapes (spec only) | done | `docs/data-shapes.md` | `data/**` (Codex implements) | 10 modules, all interfaces complete |
 | C-009 | Maintain accountability table | ongoing | `plan.md §18` | source code | Table reflects live status |
-| C-010 | Review Codex PRs (comments only) | ongoing | review reports | implementation files | Report per `audits/*` |
+| C-010 | Review + merge Codex PRs (feature→dev) | ongoing | review reports, git merge | implementation files | Gates green → Claude merges |
+| C-011 | Final release merge (dev→main) | pending Phase 3 | git merge main, audits | — | final-release-audit pass → Claude merges |
 
 ## Handoff log
 - C-001…C-005 completed in Phase 0 planning run.
