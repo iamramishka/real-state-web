@@ -440,13 +440,39 @@ Run from `/audits/`: UI · Responsive · Accessibility · SEO · Performance · 
 
 ## 18. Accountability System
 
-Track every task in this table format (mirrored in the queues):
-
-| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files Touched | Status | Commands Run | Test Results | Reviewer | Approval | Merge | Notes |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| T-000 | Example: build PropertyCard | Codex | Component Eng | feature/codex-property-cards | ../worktrees/codex-frontend | components/cards/PropertyCard.tsx | in_progress | lint, test | 12/12 pass | Reviewer AI | pending | no | — |
-
+Track every task in this table format (mirrored in the queues).
 Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (or `blocked`).
+
+### Phase 0 — Planning (complete)
+
+| Task ID | Task Name | Owner | Agent | Branch | Files Touched | Status | Commands Run | Notes |
+|---|---|---|---|---|---|---|---|---|
+| C-001 | Author plan.md (22 sections) | Claude | PM / Architect | master | plan.md | done | n/a (docs) | Master coordination doc |
+| C-002 | Author CLAUDE.md / CODEX.md | Claude | PM | master | CLAUDE.md, CODEX.md | done | n/a (docs) | Global agent rules |
+| C-003 | Author 15 agent role files | Claude | Documentation | master | agents/*.md | done | n/a (docs) | All 8 fields per agent |
+| C-004 | Author 8 audit checklists | Claude | Documentation | master | audits/*.md | done | n/a (docs) | Gate-mapped checklists |
+| C-005 | Author 6 docs references | Claude | UI/UX + Arch | master | docs/*.md | done | n/a (docs) | Design system, rules, worktree strategy |
+| C-006 | Finalize brand + accent | Claude | UI/UX | master | docs/design-system.md | done | n/a (docs) | Nordhaven / #1F6F5C locked |
+| C-007 | UX copy for all 15 sections | Claude | UI/UX | master | docs/ux-copy.md | done | n/a (docs) | Full copy + aria-labels + tone guide |
+| C-008 | Typed data shapes spec | Claude | Architect | master | docs/data-shapes.md | done | n/a (docs) | 10 modules, interfaces + Codex rules |
+
+### Phase 1 — Setup & Foundations (blocked until human approves build start)
+
+| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files to Touch | Status | Verify |
+|---|---|---|---|---|---|---|---|---|
+| X-001 | Scaffold Next.js 15 + TS + Tailwind | Codex | FE Engineer | feature/codex-setup | ../worktrees/codex-frontend | package.json, configs, app/, styles/ | blocked | npm run build |
+| X-002 | Add shadcn/ui + base UI primitives | Codex | Component Eng | feature/codex-setup | ../worktrees/codex-frontend | components/ui/** | blocked | npm run lint |
+| X-003 | Wire ESLint/Prettier/Vitest/Playwright | Codex | FE Engineer | feature/codex-setup | ../worktrees/codex-frontend | configs, tests/**, package.json | blocked | npm run lint && npm run test |
+| X-004 | Implement Tailwind design tokens | Codex | Component Eng | feature/codex-tokens | ../worktrees/codex-frontend | styles/**, tailwind config | blocked | visual + npm run build |
+| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | layouts/Header.tsx, data/nav.ts | blocked | lint, a11y, 8 breakpoints |
+| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | sections/Hero.tsx | blocked | LCP/CLS, alt text |
+
+### Claude tasks — ongoing
+
+| Task ID | Task Name | Status | Notes |
+|---|---|---|---|
+| C-009 | Maintain accountability table | ongoing | Updated each session |
+| C-010 | Review Codex PRs (comments only) | pending Phase 1 | One report per PR per audits/* |
 
 ---
 

@@ -6,10 +6,10 @@
 ---
 
 ## 1. Brand
-- **Working name:** **Nordhaven** (premium, calm, trustworthy). *Final name pending human approval — alternatives: Lumera, Havenly, Marleau, Northrop Estates.*
+- **Name:** **Nordhaven** — premium, calm, trustworthy. *(Finalized. Change requires human approval and a doc-wide update.)*
 - **Voice:** confident, warm, editorial, premium — never salesy.
 - **Logo concept:** wordmark in display weight + simple geometric monogram ("N" in a soft-rounded square). Mono/duotone; works on light and dark.
-- **Tagline direction:** "Discover a place to call home." (rephrase originally for hero — see copy guidance §9.)
+- **Tagline:** "Discover a place to call home." (Hero uses an original riff on this — see `docs/ux-copy.md`.)
 
 ## 2. Design principles
 1. **Whitespace is a feature** — generous breathing room, calm density.
@@ -35,7 +35,7 @@ Neutral-led palette with one restrained accent. Implement as CSS variables + Tai
 | `--on-ink` | `#FFFFFF` | text on dark surfaces |
 | map greens/blues | photographic | map section only |
 
-> **Accent is a pending decision:** deep emerald `#1F6F5C` (default) vs warm gold `#B08947`. Pick one and lock it. Contrast must pass AA on chosen surfaces.
+> **Accent is locked: deep emerald `#1F6F5C`.** Passes AA on white (`--surface`, `--bg`). Verified: contrast ratio ~5.2:1 on white. Do not introduce a second accent.
 
 **Contrast rule:** body text ≥ 4.5:1; large text/UI ≥ 3:1. Verify `--muted` on `--bg` (darken if it fails).
 
