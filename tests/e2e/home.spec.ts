@@ -85,6 +85,26 @@ test("home page renders the hero and search content", async ({ page }) => {
       name: "Learn more about selling with Nordhaven",
     }),
   ).toHaveAttribute("href", "/sell");
+  await expect(
+    page.getByRole("heading", {
+      name: "Explore your next neighbourhood",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("Search neighbourhoods").first()).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: /walkable neighbourhood street/i,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Explore Search neighbourhoods" }),
+  ).toHaveAttribute("href", "/neighbourhoods");
+  await expect(
+    page.getByRole("link", { name: "Explore New builds near you" }),
+  ).toHaveAttribute("href", "/new-homes");
+  await expect(
+    page.getByRole("link", { name: "Explore Meet your agent" }),
+  ).toHaveAttribute("href", "/agents");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
