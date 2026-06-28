@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+test.setTimeout(60_000);
+
 test("home page renders the hero and search content", async ({ page }) => {
   await page.goto("/");
 
@@ -65,6 +67,24 @@ test("home page renders the hero and search content", async ({ page }) => {
       name: "$2.8M — 1824 Crestline Drive, Austin, TX. Tap to view details.",
     }),
   ).toHaveAttribute("href", "/property/laurel-canyon-glass-residence");
+  await expect(
+    page.getByRole("heading", {
+      name: "The smarter way to sell your home.",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Suggested listing price within 48 hours"),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: /beautifully staged open-plan living room/i,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", {
+      name: "Learn more about selling with Nordhaven",
+    }),
+  ).toHaveAttribute("href", "/sell");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {

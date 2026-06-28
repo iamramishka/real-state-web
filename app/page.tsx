@@ -1,4 +1,5 @@
 import { FeaturedHomes } from "@/sections/FeaturedHomes";
+import { FeatureBand } from "@/sections/FeatureBand";
 import { Hero } from "@/sections/Hero";
 import { HomesForYou } from "@/sections/HomesForYou";
 import { MapListing } from "@/sections/MapListing";
@@ -12,6 +13,7 @@ export default function Home() {
       <FeaturedHomes />
       <HomesForYou />
       <MapListing />
+      <FeatureBand />
     </main>
   );
 }
