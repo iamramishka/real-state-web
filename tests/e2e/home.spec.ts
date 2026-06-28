@@ -28,6 +28,27 @@ test("home page renders the hero and search content", async ({ page }) => {
   await expect(
     page.getByRole("button", { name: "New to market" }),
   ).toHaveAttribute("aria-pressed", "false");
+  await expect(
+    page.getByRole("heading", { name: "Explore our homes" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Homes for you" }),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole("img", { name: /contemporary glass hillside home/i })
+      .first(),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Laurel Canyon Glass Residence").first(),
+  ).toBeVisible();
+  await expect(
+    page
+      .getByRole("link", {
+        name: "View details for 1824 Crestline Drive, Austin, TX",
+      })
+      .first(),
+  ).toHaveAttribute("href", "/property/laurel-canyon-glass-residence");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
