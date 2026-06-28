@@ -471,12 +471,14 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 | X-003 | Wire ESLint/Prettier/Vitest/Playwright | Codex | FE Engineer | feature/codex-setup | — (merged) | configs, tests/**, package.json | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
 | X-004 | Implement Tailwind design tokens | Codex | Component Eng | feature/codex-tokens | — (merged) | styles/globals.css | **merged** | `audits/reviews/review-codex-tokens.md` | ✅ |
 
-### Phase 2 — Sections (next up for Codex)
+### Phase 2 — Sections
 
-| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files to Touch | Status | Verify |
-|---|---|---|---|---|---|---|---|---|
-| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | layouts/Header.tsx, data/nav.ts | todo | lint, a11y, 8 breakpoints |
-| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | sections/Hero.tsx | todo | LCP/CLS, alt text |
+| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files Touched | Status | Review | Verify |
+|---|---|---|---|---|---|---|---|---|---|
+| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | — (merged) | layouts/Header.tsx, data/nav.ts | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
+| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | — (merged) | sections/Hero.tsx, app/layout.tsx, app/page.tsx | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
+| X-012 | AI search bar + form | Codex | FE Engineer | feature/codex-search | ../worktrees/codex-search | sections/SearchBar.tsx, components/forms/SearchForm.tsx | todo | lint, a11y, submit |
+| X-013 | Suggestion chips + filters | Codex | Component Eng | feature/codex-search | ../worktrees/codex-search | components/ui/Chip.tsx, data/suggestions.ts, data/filters.ts | todo | keyboard, scroll |
 
 ### Claude tasks — ongoing
 
