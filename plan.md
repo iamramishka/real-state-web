@@ -473,19 +473,37 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 
 ### Phase 2 — Sections
 
-| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files Touched | Status | Review | Verify |
-|---|---|---|---|---|---|---|---|---|---|
-| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | — (merged) | layouts/Header.tsx, data/nav.ts | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
-| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | — (merged) | sections/Hero.tsx, app/layout.tsx, app/page.tsx | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
-| X-012 | AI search bar + form | Codex | FE Engineer | feature/codex-search | — (merged) | sections/SearchBar.tsx, components/forms/SearchForm.tsx | **merged** | `audits/reviews/review-codex-search.md` ✅ |
-| X-013 | Suggestion chips + filters | Codex | Component Eng | feature/codex-search | ../worktrees/codex-search | components/ui/Chip.tsx, data/suggestions.ts, data/filters.ts | todo | keyboard, scroll |
+| Task ID | Task Name | Owner | Agent | Branch | Files Touched | Status | Review | Verify |
+|---|---|---|---|---|---|---|---|---|
+| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | layouts/Header.tsx, data/nav.ts | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
+| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | sections/Hero.tsx, app/layout.tsx, app/page.tsx | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
+| X-012 | AI search bar + form | Codex | FE Engineer | feature/codex-search | sections/SearchBar.tsx, components/forms/SearchForm.tsx | **merged** | `audits/reviews/review-codex-search.md` | ✅ |
+| X-013 | Suggestion chips + filters | Codex | Component Eng | feature/codex-search | components/ui/Chip.tsx, data/suggestions.ts, data/filters.ts | **merged** | `audits/reviews/review-codex-chips-x013.md` | ✅ |
+| X-014 | PropertyCard + CardGrid | Codex | Component Eng | feature/codex-property-cards | components/cards/PropertyCard.tsx, data/properties.ts | **merged** | `audits/reviews/review-codex-property-cards-x014-x015.md` | ✅ |
+| X-015 | Featured homes + Homes for you | Codex | FE Engineer | feature/codex-property-cards | sections/FeaturedHomes.tsx, sections/HomesForYou.tsx | **merged** | `audits/reviews/review-codex-property-cards-x014-x015.md` | ✅ |
+| X-016 | Listing + Map split | Codex | FE Engineer | feature/codex-map | sections/MapListing.tsx, components/MapView.tsx | **merged** | `audits/reviews/review-codex-map-x016.md` | ✅ |
+| X-017 | Smarter-way-to-sell band | Codex | FE Engineer | feature/codex-sell | sections/FeatureBand.tsx | **todo** | — | heading hierarchy |
+| X-018 | Neighbourhood discovery trio | Codex | Component Eng | feature/codex-discovery | sections/Discovery.tsx, data/discovery.ts | **todo** | — | link semantics |
+| X-019 | Agent section | Codex | Component Eng | feature/codex-agents | sections/Agents.tsx, components/cards/AgentCard.tsx, data/agents.ts | **todo** | — | avatar alt, ratings |
+| X-020 | News + Trends/Tips grids | Codex | FE Engineer | feature/codex-news | sections/News.tsx, sections/Trends.tsx, data/news.ts, data/articles.ts | **todo** | — | time element |
+| X-021 | CTA band + Footer | Codex | FE Engineer | feature/codex-cta-footer | sections/CTABand.tsx, layouts/Footer.tsx, data/footer.ts | **todo** | — | external link rel |
+
+### Phase 3 — Hardening
+
+| Task ID | Task Name | Owner | Status | Verify |
+|---|---|---|---|---|
+| X-030 | SEO metadata + JSON-LD + sitemap/robots | Codex | todo | Lighthouse SEO, valid JSON-LD |
+| X-031 | Accessibility pass | Codex | todo | `npm run test:a11y` 0 serious |
+| X-032 | Performance + bundle budgets | Codex | todo | `npm run lighthouse` ≥ 90 |
+| X-033 | Security pass | Codex | todo | `npm audit`, gitleaks clean |
+| C-011 | Final release merge (dev→main) | Claude | pending Phase 3 | final-release-audit pass → Claude merges |
 
 ### Claude tasks — ongoing
 
 | Task ID | Task Name | Status | Notes |
 |---|---|---|---|
-| C-009 | Maintain accountability table | ongoing | Updated each session |
-| C-010 | Review + merge Codex PRs | pending Phase 1 | Review → gates green → Claude merges feature→dev |
+| C-009 | Maintain accountability table | ongoing | Updated 2026-06-29; X-013–X-016 merged |
+| C-010 | Review + merge Codex PRs | ongoing | X-001–X-016 merged; awaiting X-017 |
 | C-011 | Final release merge (dev→main) | pending Phase 3 | After final-release-audit passes → Claude merges dev→main |
 
 ---
