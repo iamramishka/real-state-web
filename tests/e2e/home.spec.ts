@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("home page renders the hero content", async ({ page }) => {
+test("home page renders the hero and search content", async ({ page }) => {
   await page.goto("/");
 
   await expect(
@@ -11,4 +11,35 @@ test("home page renders the hero content", async ({ page }) => {
   await expect(
     page.getByRole("img", { name: /contemporary luxury home/i }),
   ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Buy" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(page.getByLabel("Search query")).toBeVisible();
+  await expect(
+    page.getByPlaceholder("e.g. 3-bedroom near a good school in Austin, TX"),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "Run search" })).toBeVisible();
+});
+
+test("search form validates and submits with keyboard", async ({ page }) => {
+  await page.goto("/");
+
+  await page.getByRole("button", { name: "Rent" }).click();
+  await expect(page.getByRole("button", { name: "Rent" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(
+    page.getByPlaceholder(
+      "e.g. Pet-friendly apartment with parking under $2,500",
+    ),
+  ).toBeVisible();
+
+  await page.getByLabel("Search query").fill("Loft near transit");
+  await page.keyboard.press("Enter");
+
+  await expect(page.getByRole("status")).toContainText(
+    'Rent search ready for "Loft near transit".',
+  );
 });
