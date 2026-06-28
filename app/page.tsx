@@ -10,10 +10,10 @@ export default function Home() {
     <main className="min-h-screen bg-[var(--bg)] px-6 py-16 text-[var(--ink)] sm:px-10 lg:px-16">
       <section className="mx-auto flex max-w-5xl flex-col gap-10">
         <div className="space-y-5">
-          <p className="text-sm font-medium uppercase tracking-[0.14em] text-[var(--accent)]">
+          <p className="text-sm font-medium tracking-[0.14em] text-[var(--accent)] uppercase">
             Nordhaven setup
           </p>
-          <h1 className="max-w-3xl text-5xl font-semibold leading-tight sm:text-6xl">
+          <h1 className="max-w-3xl text-5xl leading-tight font-semibold sm:text-6xl">
             Premium real estate foundation is ready.
           </h1>
           <p className="max-w-2xl text-lg leading-8 text-[var(--muted)]">

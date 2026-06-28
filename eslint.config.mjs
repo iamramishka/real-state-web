@@ -10,14 +10,20 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends(
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:jsx-a11y/recommended",
+  ),
   {
     ignores: [
       ".next/**",
+      "coverage/**",
       "next-env.d.ts",
       "node_modules/**",
       "out/**",
-      "coverage/**"
+      "playwright-report/**",
+      "test-results/**",
     ],
   },
 ];
