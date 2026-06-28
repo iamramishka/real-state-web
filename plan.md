@@ -462,16 +462,21 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 | C-007 | UX copy for all 15 sections | Claude | UI/UX | master | docs/ux-copy.md | done | n/a (docs) | Full copy + aria-labels + tone guide |
 | C-008 | Typed data shapes spec | Claude | Architect | master | docs/data-shapes.md | done | n/a (docs) | 10 modules, interfaces + Codex rules |
 
-### Phase 1 — Setup & Foundations (blocked until human approves build start)
+### Phase 1 — Setup & Foundations ✅ Complete
+
+| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files Touched | Status | Review | Verify |
+|---|---|---|---|---|---|---|---|---|---|
+| X-001 | Scaffold Next.js 15 + TS + Tailwind | Codex | FE Engineer | feature/codex-setup | — (merged) | package.json, configs, app/, styles/ | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
+| X-002 | Add shadcn/ui + base UI primitives | Codex | Component Eng | feature/codex-setup | — (merged) | components/ui/** | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
+| X-003 | Wire ESLint/Prettier/Vitest/Playwright | Codex | FE Engineer | feature/codex-setup | — (merged) | configs, tests/**, package.json | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
+| X-004 | Implement Tailwind design tokens | Codex | Component Eng | feature/codex-tokens | — (merged) | styles/globals.css | **merged** | `audits/reviews/review-codex-tokens.md` | ✅ |
+
+### Phase 2 — Sections (next up for Codex)
 
 | Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files to Touch | Status | Verify |
 |---|---|---|---|---|---|---|---|---|
-| X-001 | Scaffold Next.js 15 + TS + Tailwind | Codex | FE Engineer | feature/codex-setup | ../worktrees/codex-frontend | package.json, configs, app/, styles/ | blocked | npm run build |
-| X-002 | Add shadcn/ui + base UI primitives | Codex | Component Eng | feature/codex-setup | ../worktrees/codex-frontend | components/ui/** | blocked | npm run lint |
-| X-003 | Wire ESLint/Prettier/Vitest/Playwright | Codex | FE Engineer | feature/codex-setup | ../worktrees/codex-frontend | configs, tests/**, package.json | blocked | npm run lint && npm run test |
-| X-004 | Implement Tailwind design tokens | Codex | Component Eng | feature/codex-tokens | ../worktrees/codex-frontend | styles/**, tailwind config | blocked | visual + npm run build |
-| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | layouts/Header.tsx, data/nav.ts | blocked | lint, a11y, 8 breakpoints |
-| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | sections/Hero.tsx | blocked | LCP/CLS, alt text |
+| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | layouts/Header.tsx, data/nav.ts | todo | lint, a11y, 8 breakpoints |
+| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | sections/Hero.tsx | todo | LCP/CLS, alt text |
 
 ### Claude tasks — ongoing
 
