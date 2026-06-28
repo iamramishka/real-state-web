@@ -1,12 +1,14 @@
 import { expect, test } from "@playwright/test";
 
-test("home page renders the scaffold content", async ({ page }) => {
+test("home page renders the hero content", async ({ page }) => {
   await page.goto("/");
 
   await expect(
     page.getByRole("heading", {
-      name: "Premium real estate foundation is ready.",
+      name: "Find the home you've been imagining.",
     }),
   ).toBeVisible();
-  await expect(page.getByText("Next.js 15 App Router")).toBeVisible();
+  await expect(
+    page.getByRole("img", { name: /contemporary luxury home/i }),
+  ).toBeVisible();
 });
