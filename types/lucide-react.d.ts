@@ -13,8 +13,12 @@ declare module "lucide-react" {
 
   export const Activity: LucideIcon;
   export const ArrowUp: LucideIcon;
+  export const Bath: LucideIcon;
+  export const BedDouble: LucideIcon;
   export const Menu: LucideIcon;
   export const Mic: LucideIcon;
+  export const MapPin: LucideIcon;
   export const Plus: LucideIcon;
+  export const Ruler: LucideIcon;
   export const X: LucideIcon;
 }
