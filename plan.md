@@ -477,7 +477,7 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 |---|---|---|---|---|---|---|---|---|---|
 | X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | — (merged) | layouts/Header.tsx, data/nav.ts | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
 | X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | — (merged) | sections/Hero.tsx, app/layout.tsx, app/page.tsx | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
-| X-012 | AI search bar + form | Codex | FE Engineer | feature/codex-search | ../worktrees/codex-search | sections/SearchBar.tsx, components/forms/SearchForm.tsx | todo | lint, a11y, submit |
+| X-012 | AI search bar + form | Codex | FE Engineer | feature/codex-search | — (merged) | sections/SearchBar.tsx, components/forms/SearchForm.tsx | **merged** | `audits/reviews/review-codex-search.md` ✅ |
 | X-013 | Suggestion chips + filters | Codex | Component Eng | feature/codex-search | ../worktrees/codex-search | components/ui/Chip.tsx, data/suggestions.ts, data/filters.ts | todo | keyboard, scroll |
 
 ### Claude tasks — ongoing
