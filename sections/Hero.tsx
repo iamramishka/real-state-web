@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 const heroImage = {
-  src: "/images/hero-home.png",
-  width: 1672,
-  height: 941,
+  src: "/images/hero-home.jpg",
+  width: 1600,
+  height: 900,
   alt: "A contemporary luxury home with floor-to-ceiling windows, surrounded by mature trees at dusk.",
 };
 

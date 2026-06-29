@@ -1,8 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useId, useState } from "react";
-import { useForm } from "react-hook-form";
+import { type FormEvent, useId, useState } from "react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -14,8 +12,6 @@ const newsletterSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
 });
 
-type NewsletterFormValues = z.infer<typeof newsletterSchema>;
-
 type NewsletterFormProps = {
   config: FooterConfig["newsletter"];
 };
@@ -23,30 +19,30 @@ type NewsletterFormProps = {
 export function NewsletterForm({ config }: NewsletterFormProps) {
   const emailId = useId();
   const messageId = useId();
+  const [email, setEmail] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [message, setMessage] = useState("");
 
-  const {
-    formState: { errors, isSubmitting },
-    handleSubmit,
-    register,
-    reset,
-  } = useForm<NewsletterFormValues>({
-    defaultValues: {
-      email: "",
-    },
-    resolver: zodResolver(newsletterSchema),
-  });
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const parsed = newsletterSchema.safeParse({ email });
 
-  async function onSubmit() {
+    if (!parsed.success) {
+      setErrorMessage(config.errorMessage);
+      setMessage("");
+      return;
+    }
+
+    setEmail("");
+    setErrorMessage("");
     setMessage(config.successMessage);
-    reset();
   }
 
   return (
     <form
       aria-describedby={messageId}
       className="grid gap-3"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
     >
       <Label className="text-on-ink font-medium" htmlFor={emailId}>
         {config.label}
@@ -54,19 +50,21 @@ export function NewsletterForm({ config }: NewsletterFormProps) {
       <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto]">
         <Input
           aria-describedby={messageId}
-          aria-invalid={Boolean(errors.email)}
+          aria-invalid={Boolean(errorMessage)}
           className="border-white/20 bg-white/10 text-white placeholder:text-white/60 focus-visible:ring-white"
           id={emailId}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setErrorMessage("");
+            setMessage("");
+          }}
           placeholder={config.placeholder}
           type="email"
-          {...register("email", {
-            onChange: () => setMessage(""),
-          })}
+          value={email}
         />
         <Button
           aria-label={config.buttonAriaLabel}
           className="text-ink bg-white hover:bg-white/90"
-          disabled={isSubmitting}
           type="submit"
         >
           {config.buttonLabel}
@@ -75,9 +73,9 @@ export function NewsletterForm({ config }: NewsletterFormProps) {
       <p
         className="text-small min-h-5 text-white/75"
         id={messageId}
-        role={errors.email ? "alert" : message ? "status" : undefined}
+        role={errorMessage ? "alert" : message ? "status" : undefined}
       >
-        {errors.email ? config.errorMessage : message}
+        {errorMessage || message}
       </p>
     </form>
   );

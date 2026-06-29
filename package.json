@@ -11,13 +11,14 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
+    "analyze": "node scripts/analyze.mjs",
+    "lighthouse": "node scripts/lighthouse.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test tests/e2e",
     "test:a11y": "playwright test tests/a11y"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.4.0",
     "@radix-ui/react-dialog": "^1.1.17",
     "@radix-ui/react-label": "^2.1.10",
     "@radix-ui/react-separator": "^1.1.10",
@@ -28,7 +29,6 @@
     "next": "15.5.19",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-hook-form": "^7.80.0",
     "tailwind-merge": "^3.6.0",
     "zod": "^4.4.3"
   },
@@ -38,6 +38,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
     "@eslint/eslintrc": "^3.3.1",
+    "@next/bundle-analyzer": "^15.5.19",
     "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4.3.1",
     "@testing-library/jest-dom": "^6.9.1",

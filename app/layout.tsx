@@ -1,10 +1,23 @@
 import type { Metadata } from "next";
+import { Inter, Sora } from "next/font/google";
 
 import { Footer } from "@/layouts/Footer";
 import { Header } from "@/layouts/Header";
 import { siteConfig } from "@/lib/seo";
 
 import "../styles/globals.css";
+
+const inter = Inter({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const sora = Sora({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-sora",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -58,7 +71,7 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${inter.variable} ${sora.variable}`}>
         <Header />
         {children}
         <Footer />

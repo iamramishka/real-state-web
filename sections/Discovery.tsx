@@ -26,7 +26,11 @@ function DiscoveryCard({ item }: { item: DiscoveryItem }) {
         </div>
 
         <Button asChild className="w-fit" variant="secondary">
-          <Link aria-label={`Explore ${item.heading}`} href={item.href}>
+          <Link
+            aria-label={`Explore ${item.heading}`}
+            href={item.href}
+            prefetch={false}
+          >
             Explore
           </Link>
         </Button>

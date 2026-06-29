@@ -1,9 +1,7 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Activity, ArrowUp, Mic, Plus } from "lucide-react";
-import { useId, useState } from "react";
-import { useForm } from "react-hook-form";
+import { type FormEvent, useId, useState } from "react";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -42,36 +40,33 @@ export function SearchForm() {
   const queryId = useId();
   const errorId = useId();
   const statusId = useId();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedMode, setSelectedMode] = useState<SearchMode>("buy");
   const [statusMessage, setStatusMessage] = useState("");
 
-  const {
-    formState: { errors, isSubmitting },
-    handleSubmit,
-    register,
-    setValue,
-    watch,
-  } = useForm<SearchFormValues>({
-    defaultValues: {
-      mode: "buy",
-      query: "",
-    },
-    resolver: zodResolver(searchSchema),
-  });
-
-  const selectedMode = watch("mode");
-
   function selectMode(mode: SearchMode) {
-    setValue("mode", mode, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true,
-    });
+    setSelectedMode(mode);
+    setErrorMessage("");
     setStatusMessage("");
   }
 
-  async function onSubmit(values: SearchFormValues) {
+  function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const parsed = searchSchema.safeParse({
+      mode: selectedMode,
+      query,
+    } satisfies SearchFormValues);
+
+    if (!parsed.success) {
+      setErrorMessage(parsed.error.issues[0]?.message ?? "");
+      setStatusMessage("");
+      return;
+    }
+
+    setErrorMessage("");
     setStatusMessage(
-      `${searchModes[values.mode].label} search ready for "${values.query.trim()}".`,
+      `${searchModes[parsed.data.mode].label} search ready for "${parsed.data.query.trim()}".`,
     );
   }
 
@@ -79,9 +74,9 @@ export function SearchForm() {
     <form
       aria-describedby={statusId}
       className="border-line bg-surface shadow-raised text-ink rounded-xl border p-3 sm:p-4 lg:p-5"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={onSubmit}
     >
-      <input type="hidden" {...register("mode")} />
+      <input name="mode" type="hidden" value={selectedMode} />
 
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
         <fieldset
@@ -127,13 +122,18 @@ export function SearchForm() {
             </Button>
 
             <Input
-              aria-describedby={errors.query ? errorId : undefined}
-              aria-invalid={Boolean(errors.query)}
+              aria-describedby={errorMessage ? errorId : undefined}
+              aria-invalid={Boolean(errorMessage)}
               autoComplete="off"
               className="h-11 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
               id={queryId}
+              onChange={(event) => {
+                setQuery(event.target.value);
+                setErrorMessage("");
+                setStatusMessage("");
+              }}
               placeholder={searchModes[selectedMode].placeholder}
-              {...register("query")}
+              value={query}
             />
 
             <div className="flex items-center gap-1">
@@ -160,7 +160,6 @@ export function SearchForm() {
               <Button
                 aria-label="Run search"
                 className="size-10"
-                disabled={isSubmitting}
                 size="icon"
                 title="Run search"
                 type="submit"
@@ -170,9 +169,9 @@ export function SearchForm() {
             </div>
           </div>
 
-          {errors.query ? (
+          {errorMessage ? (
             <p className="text-small text-ink px-3" id={errorId} role="alert">
-              {errors.query.message}
+              {errorMessage}
             </p>
           ) : null}
         </div>

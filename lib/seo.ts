@@ -8,7 +8,7 @@ export const siteConfig = {
   description:
     "Search premium homes, compare neighborhoods, meet trusted agents, and read practical market guidance with Nordhaven.",
   url: siteUrl,
-  ogImage: "/images/hero-home.png",
+  ogImage: "/images/hero-home.jpg",
 };
 
 export function absoluteUrl(path: string) {
@@ -21,7 +21,7 @@ export function getOrganizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
-    logo: absoluteUrl("/images/hero-home.png"),
+    logo: absoluteUrl(siteConfig.ogImage),
     sameAs: [
       "https://www.instagram.com/",
       "https://www.linkedin.com/",

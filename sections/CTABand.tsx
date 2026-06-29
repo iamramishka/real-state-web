@@ -19,7 +19,11 @@ export function CTABand() {
         </div>
 
         <Button asChild className="text-ink bg-white hover:bg-white/90">
-          <Link aria-label="Start searching for a home" href="/buy">
+          <Link
+            aria-label="Start searching for a home"
+            href="/buy"
+            prefetch={false}
+          >
             Start your search
           </Link>
         </Button>
