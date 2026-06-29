@@ -119,6 +119,39 @@ test("home page renders the hero and search content", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Contact Maya Chen" }),
   ).toHaveAttribute("href", "/agents/maya-chen");
+  await expect(
+    page.getByRole("heading", { name: "Real estate news" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: "Residential towers and new construction cranes at sunrise.",
+    }),
+  ).toBeVisible();
+  await expect(page.locator("time[datetime='2026-06-12']")).toHaveText(
+    "June 12, 2026",
+  );
+  await expect(
+    page
+      .getByRole("link", {
+        name: "Read: Inventory is rising, but turnkey homes still move first",
+      })
+      .last(),
+  ).toHaveAttribute("href", "/news/market-velocity-shifts");
+  await expect(
+    page.getByRole("heading", {
+      name: "Discover trends, tips, and property inspiration",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "See all learning resources" }),
+  ).toHaveAttribute("href", "/news");
+  await expect(
+    page
+      .getByRole("link", {
+        name: "Read more: Quiet corners buyers remember after the tour",
+      })
+      .last(),
+  ).toHaveAttribute("href", "/news/quiet-corners-buyers-notice");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
