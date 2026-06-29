@@ -21,6 +21,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
         aria-label={`Read: ${article.title}`}
         className="focus-visible:ring-accent block outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
         href={`/news/${article.slug}`}
+        prefetch={false}
       >
         <Image
           alt={article.image.alt}
@@ -54,6 +55,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
           <Link
             aria-label={`Read: ${article.title}`}
             href={`/news/${article.slug}`}
+            prefetch={false}
           >
             Read article
           </Link>

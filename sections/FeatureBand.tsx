@@ -57,6 +57,7 @@ export function FeatureBand() {
               <Link
                 aria-label="Learn more about selling with Nordhaven"
                 href="/sell"
+                prefetch={false}
               >
                 Learn more
               </Link>

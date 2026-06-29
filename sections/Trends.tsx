@@ -23,7 +23,11 @@ export function Trends() {
           </div>
 
           <Button asChild variant="secondary">
-            <Link aria-label="See all learning resources" href="/news">
+            <Link
+              aria-label="See all learning resources"
+              href="/news"
+              prefetch={false}
+            >
               See all learning
             </Link>
           </Button>

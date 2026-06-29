@@ -80,6 +80,7 @@ export function MobileMenu() {
                     aria-label={item.ariaLabel}
                     className="text-ink hover:bg-bg-soft focus-visible:ring-accent flex min-h-11 items-center rounded-lg px-3 text-base font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
                     href={item.href}
+                    prefetch={false}
                   >
                     {item.label}
                   </Link>
@@ -90,7 +91,9 @@ export function MobileMenu() {
         </nav>
         <SheetClose asChild>
           <Button asChild className="mt-8 w-full">
-            <Link href={navConfig.cta.href}>{navConfig.cta.label}</Link>
+            <Link href={navConfig.cta.href} prefetch={false}>
+              {navConfig.cta.label}
+            </Link>
           </Button>
         </SheetClose>
       </SheetContent>

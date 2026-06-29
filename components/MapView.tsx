@@ -83,6 +83,7 @@ export function MapView({ properties }: MapViewProps) {
             className="rounded-pill bg-ink text-on-ink shadow-raised focus-visible:ring-accent focus-visible:ring-offset-bg absolute z-10 -translate-x-1/2 -translate-y-1/2 px-3 py-2 text-xs font-semibold whitespace-nowrap transition-transform outline-none hover:scale-105 focus-visible:ring-2 focus-visible:ring-offset-2"
             href={property.href}
             key={property.id}
+            prefetch={false}
             style={getPosition(property, bounds)}
           >
             {price}

@@ -41,6 +41,7 @@ function DesktopNav() {
               aria-label={item.ariaLabel}
               className="rounded-pill text-ink-700 hover:bg-bg-soft hover:text-ink focus-visible:ring-accent focus-visible:ring-offset-surface inline-flex min-h-11 items-center px-4 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               href={item.href}
+              prefetch={false}
             >
               {item.label}
             </Link>
@@ -59,7 +60,9 @@ export function Header() {
         <DesktopNav />
         <div className="flex items-center gap-2">
           <Button asChild className="hidden md:inline-flex" variant="default">
-            <Link href={navConfig.cta.href}>{navConfig.cta.label}</Link>
+            <Link href={navConfig.cta.href} prefetch={false}>
+              {navConfig.cta.label}
+            </Link>
           </Button>
           <MobileMenu />
         </div>

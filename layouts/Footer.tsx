@@ -21,6 +21,7 @@ function FooterNavLink({ link }: { link: FooterLink }) {
     <Link
       className="text-small text-white/70 transition-colors hover:text-white"
       href={link.href}
+      prefetch={false}
     >
       {link.label}
     </Link>

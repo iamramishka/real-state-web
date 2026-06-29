@@ -101,6 +101,7 @@ export function PropertyCard({
         aria-label={`View details for ${property.address}`}
         className="focus-visible:ring-accent focus-visible:ring-offset-bg block overflow-hidden rounded-t-xl focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
         href={property.href}
+        prefetch={false}
       >
         <Image
           alt={property.image.alt}
@@ -119,6 +120,7 @@ export function PropertyCard({
             <Link
               className="focus-visible:ring-accent focus-visible:ring-offset-surface rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
               href={property.href}
+              prefetch={false}
             >
               {property.title}
             </Link>
@@ -148,6 +150,7 @@ export function PropertyCard({
           <Link
             aria-label={`View details for ${property.address}`}
             href={property.href}
+            prefetch={false}
           >
             View details
           </Link>

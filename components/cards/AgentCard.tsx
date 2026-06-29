@@ -64,6 +64,7 @@ export function AgentCard({ agent }: { agent: Agent }) {
         <Link
           aria-label={`Contact ${agent.name}`}
           href={`/agents/${agent.slug}`}
+          prefetch={false}
         >
           Contact
         </Link>
