@@ -1,8 +1,14 @@
+import { Agents } from "@/sections/Agents";
+import { Discovery } from "@/sections/Discovery";
 import { FeaturedHomes } from "@/sections/FeaturedHomes";
+import { FeatureBand } from "@/sections/FeatureBand";
 import { Hero } from "@/sections/Hero";
 import { HomesForYou } from "@/sections/HomesForYou";
 import { MapListing } from "@/sections/MapListing";
+import { News } from "@/sections/News";
 import { SearchBar } from "@/sections/SearchBar";
+import { Trends } from "@/sections/Trends";
+import { CTABand } from "@/sections/CTABand";
 
 export default function Home() {
   return (
@@ -12,6 +18,12 @@ export default function Home() {
       <FeaturedHomes />
       <HomesForYou />
       <MapListing />
+      <FeatureBand />
+      <Discovery />
+      <Agents />
+      <News />
+      <Trends />
+      <CTABand />
     </main>
   );
 }
