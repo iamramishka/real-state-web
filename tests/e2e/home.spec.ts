@@ -267,3 +267,61 @@ test("newsletter form validates and confirms signup", async ({ page }) => {
     page.getByText("You're subscribed. We'll send the good stuff only."),
   ).toBeVisible();
 });
+
+test("home page exposes SEO metadata and valid JSON-LD", async ({ page }) => {
+  await page.goto("/");
+
+  await expect(page).toHaveTitle("Nordhaven | Premium Real Estate Search");
+  await expect(page.locator("meta[name='description']")).toHaveAttribute(
+    "content",
+    /Search premium homes, compare neighborhoods/,
+  );
+  await expect(page.locator("link[rel='canonical']")).toHaveAttribute(
+    "href",
+    "https://www.nordhaven.example",
+  );
+
+  const structuredData = await page
+    .locator("script[type='application/ld+json']")
+    .evaluateAll((scripts) =>
+      scripts.map((script) => JSON.parse(script.textContent ?? "{}")),
+    );
+
+  expect(structuredData).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        "@type": "Organization",
+        name: "Nordhaven",
+      }),
+      expect.objectContaining({
+        "@type": "BreadcrumbList",
+      }),
+      expect.objectContaining({
+        "@type": "ItemList",
+        name: "Featured Nordhaven real estate listings",
+      }),
+    ]),
+  );
+});
+
+test("sitemap and robots routes are reachable", async ({ page }) => {
+  const sitemap = await page.request.get("/sitemap.xml");
+  expect(sitemap.ok()).toBeTruthy();
+  await expect(async () => {
+    const body = await sitemap.text();
+    expect(body).toContain("https://www.nordhaven.example/");
+    expect(body).toContain(
+      "https://www.nordhaven.example/property/laurel-canyon-glass-residence",
+    );
+  }).toPass();
+
+  const robots = await page.request.get("/robots.txt");
+  expect(robots.ok()).toBeTruthy();
+  await expect(async () => {
+    const body = await robots.text();
+    expect(body).toContain("Allow: /");
+    expect(body).toContain(
+      "Sitemap: https://www.nordhaven.example/sitemap.xml",
+    );
+  }).toPass();
+});
