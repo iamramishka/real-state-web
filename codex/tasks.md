@@ -37,10 +37,10 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 
 | ID    | Task                                    | Status      | Verify                        |
 | ----- | --------------------------------------- | ----------- | ----------------------------- |
-| X-030 | SEO metadata + JSON-LD + sitemap/robots | in_review   | Lighthouse SEO, valid JSON-LD |
-| X-031 | Accessibility pass                      | in_review | `npm run test:a11y` 0 serious |
-| X-032 | Performance + bundle budgets            | blocked     | `npm run lighthouse` ≥ 90     |
-| X-033 | Security pass                           | blocked     | `npm audit`, gitleaks clean   |
+| X-030 | SEO metadata + JSON-LD + sitemap/robots | merged  | Lighthouse SEO, valid JSON-LD |
+| X-031 | Accessibility pass                      | merged  | `npm run test:a11y` 0 serious |
+| X-032 | Performance + bundle budgets            | todo    | `npm run lighthouse` ≥ 90     |
+| X-033 | Security pass                           | todo    | `npm audit`, gitleaks clean   |
 
 ## Handoff log
 

@@ -494,8 +494,8 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 
 | Task ID | Task Name | Owner | Status | Verify |
 |---|---|---|---|---|
-| X-030 | SEO metadata + JSON-LD + sitemap/robots | Codex | todo | Lighthouse SEO, valid JSON-LD |
-| X-031 | Accessibility pass | Codex | todo | `npm run test:a11y` 0 serious |
+| X-030 | SEO metadata + JSON-LD + sitemap/robots | Codex | **merged** | `audits/reviews/review-codex-seo-a11y-x030-x031.md` ✅ |
+| X-031 | Accessibility pass | Codex | **merged** | `audits/reviews/review-codex-seo-a11y-x030-x031.md` ✅ |
 | X-032 | Performance + bundle budgets | Codex | todo | `npm run lighthouse` ≥ 90 |
 | X-033 | Security pass | Codex | todo | `npm audit`, gitleaks clean |
 | C-011 | Final release merge (dev→main) | Claude | pending Phase 3 | final-release-audit pass → Claude merges |

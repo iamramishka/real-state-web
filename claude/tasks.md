@@ -38,4 +38,6 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
   - X-016 (map + listing): `audits/reviews/review-codex-map-x016.md` · merged 2026-06-29
   - X-017–X-021 (sell band, discovery, agents, news+trends, CTA+footer): `audits/reviews/review-codex-sections-x017-x021.md` · merged 2026-06-29 (single chain merge of `feature/codex-cta-footer`)
   - **Phase 2 complete** — all 11 homepage sections merged into `dev`.
-  - **Next to review:** X-030 (SEO) once Codex pushes `feature/codex-seo`. 3 minor a11y notes deferred to X-031 (newsletter `role=alert`, footer heading level, dark-section contrast).
+  - X-030–X-031 (SEO metadata/JSON-LD/sitemap/robots + a11y coverage pass): `audits/reviews/review-codex-seo-a11y-x030-x031.md` · merged 2026-06-29. Codex fixed deferred newsletter `role=alert` note in this pass; contrast note now test-covered. JsonLd `dangerouslySetInnerHTML` reviewed as sanctioned exception (escaped JSON-LD, typed data).
+  - **Next to review:** X-032 (performance) + X-033 (security) — final Phase 3 tasks.
+  - **Pre-launch flag:** `lib/seo.ts` `siteUrl` is a placeholder (`nordhaven.example`) — swap for real domain before release (C-011 / deploy).
