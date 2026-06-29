@@ -46,7 +46,9 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 
 | ID    | Task                                   | Status | Branch              | Allowed files                          | Verify                |
 | ----- | -------------------------------------- | ------ | ------------------- | -------------------------------------- | --------------------- |
-| X-034 | Make `siteUrl` env-driven for deploy   | todo   | feature/codex-deploy | `lib/seo.ts`, `.env.example`, `tests/**` | `npm run build`, types |
+| X-034 | Make `siteUrl` env-driven for deploy   | merged | feature/codex-deploy | `lib/seo.ts`, `.env.example`, `tests/**` | `npm run build`, types |
+
+> **X-034 done (2026-06-30):** implemented by **Claude** under explicit human assignment (overrode default Codex `lib/**` ownership for this one task). `siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? <placeholder>`; `.env.example` added. Build-verified with and without the env var (domain propagates to canonical/OG/sitemap/robots). Review: `audits/reviews/review-x034-deploy-env.md`. **Site is deploy-ready.**
 
 ### X-034 Brief — Env-driven site URL (deploy readiness)
 
