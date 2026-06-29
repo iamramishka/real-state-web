@@ -75,7 +75,7 @@ export function NewsletterForm({ config }: NewsletterFormProps) {
       <p
         className="text-small min-h-5 text-white/75"
         id={messageId}
-        role={errors.email || message ? "status" : undefined}
+        role={errors.email ? "alert" : message ? "status" : undefined}
       >
         {errors.email ? config.errorMessage : message}
       </p>
