@@ -1,18 +1,20 @@
 import Image from "next/image";
 
+import { SearchForm } from "@/components/forms/SearchForm";
+import { searchSuggestions } from "@/data/suggestions";
+
 const heroImage = {
   src: "/images/hero-home.jpg",
-  width: 1600,
-  height: 900,
   alt: "A contemporary luxury home with floor-to-ceiling windows, surrounded by mature trees at dusk.",
 };
 
 export function Hero() {
   return (
-    <section className="bg-bg pb-section-y text-ink pt-10 md:pt-16">
-      <div className="container-page">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)] lg:items-start">
-          <h1 className="font-display text-display-1 font-semibold tracking-normal text-balance">
+    <section className="bg-surface text-ink">
+      {/* Text zone — headline left, supporting copy right */}
+      <div className="container-page pb-8 pt-10 md:pb-12 md:pt-16">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1.2fr)_minmax(18rem,0.8fr)] lg:items-start">
+          <h1 className="font-display text-display-1 font-semibold text-balance">
             <span className="block">Find the home</span>
             <span className="block">you&apos;ve been imagining.</span>
           </h1>
@@ -21,17 +23,26 @@ export function Hero() {
             neighbourhoods, and people that make the move worth making.
           </p>
         </div>
+      </div>
 
-        <div className="border-line bg-surface shadow-soft mt-8 overflow-hidden rounded-xl border md:mt-10 lg:mt-12">
+      {/* Full-bleed image with search card floating at the bottom */}
+      <div className="relative">
+        <div className="relative h-[380px] overflow-hidden sm:h-[440px] md:h-[520px] lg:h-[600px]">
           <Image
             alt={heroImage.alt}
-            className="aspect-[16/10] h-auto w-full object-cover md:aspect-[16/9]"
-            height={heroImage.height}
+            className="object-cover object-center"
+            fill
             priority
-            sizes="(max-width: 768px) calc(100vw - 2rem), (max-width: 1280px) calc(100vw - 8rem), 1280px"
+            sizes="100vw"
             src={heroImage.src}
-            width={heroImage.width}
           />
+        </div>
+
+        {/* Floating search card — anchored inside the bottom of the image */}
+        <div className="absolute bottom-0 left-0 right-0 pb-6 md:pb-8">
+          <div className="container-page">
+            <SearchForm suggestions={searchSuggestions} />
+          </div>
         </div>
       </div>
     </section>

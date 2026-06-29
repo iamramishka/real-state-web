@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import type { SearchSuggestion } from "@/data/suggestions";
 import { cn } from "@/lib/utils";
 
 const searchModes = {
@@ -36,7 +37,11 @@ const searchSchema = z.object({
 type SearchFormValues = z.infer<typeof searchSchema>;
 type SearchMode = SearchFormValues["mode"];
 
-export function SearchForm() {
+interface SearchFormProps {
+  suggestions?: readonly SearchSuggestion[];
+}
+
+export function SearchForm({ suggestions }: SearchFormProps) {
   const queryId = useId();
   const errorId = useId();
   const statusId = useId();
@@ -44,6 +49,11 @@ export function SearchForm() {
   const [query, setQuery] = useState("");
   const [selectedMode, setSelectedMode] = useState<SearchMode>("buy");
   const [statusMessage, setStatusMessage] = useState("");
+
+  const visibleSuggestions =
+    suggestions?.filter(
+      (s) => !s.mode || s.mode === "all" || s.mode === selectedMode,
+    ) ?? [];
 
   function selectMode(mode: SearchMode) {
     setSelectedMode(mode);
@@ -176,6 +186,29 @@ export function SearchForm() {
           ) : null}
         </div>
       </div>
+
+      {visibleSuggestions.length > 0 && (
+        <div
+          aria-label="Search suggestions"
+          className="mt-3 flex gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none]"
+          role="group"
+        >
+          {visibleSuggestions.map((suggestion) => (
+            <button
+              className="rounded-pill bg-bg-soft text-ink-700 focus-visible:ring-accent shrink-0 whitespace-nowrap px-3 py-1.5 text-xs font-medium transition-colors hover:bg-line focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              key={suggestion.id}
+              onClick={() => {
+                setQuery(suggestion.query);
+                setErrorMessage("");
+                setStatusMessage("");
+              }}
+              type="button"
+            >
+              {suggestion.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       <p
         aria-label="Search status"
