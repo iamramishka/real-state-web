@@ -36,4 +36,6 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
   - X-013 (chips + filters): `audits/reviews/review-codex-chips-x013.md` · merged 2026-06-29
   - X-014–X-015 (property cards + sections): `audits/reviews/review-codex-property-cards-x014-x015.md` · merged 2026-06-29
   - X-016 (map + listing): `audits/reviews/review-codex-map-x016.md` · merged 2026-06-29
-  - **Next to review:** X-017 (feature/codex-sell — FeatureBand) once Codex adds commits.
+  - X-017–X-021 (sell band, discovery, agents, news+trends, CTA+footer): `audits/reviews/review-codex-sections-x017-x021.md` · merged 2026-06-29 (single chain merge of `feature/codex-cta-footer`)
+  - **Phase 2 complete** — all 11 homepage sections merged into `dev`.
+  - **Next to review:** X-030 (SEO) once Codex pushes `feature/codex-seo`. 3 minor a11y notes deferred to X-031 (newsletter `role=alert`, footer heading level, dark-section contrast).
