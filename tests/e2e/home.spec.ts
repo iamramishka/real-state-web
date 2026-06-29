@@ -152,6 +152,25 @@ test("home page renders the hero and search content", async ({ page }) => {
       })
       .last(),
   ).toHaveAttribute("href", "/news/quiet-corners-buyers-notice");
+  await expect(
+    page.getByRole("heading", { name: "Ready to find your next home?" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Start searching for a home" }),
+  ).toHaveAttribute("href", "/buy");
+  await expect(page.getByRole("contentinfo")).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Footer navigation" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Nordhaven on Instagram" }),
+  ).toHaveAttribute("rel", "noopener noreferrer");
+  await expect(
+    page.getByRole("link", { name: "Nordhaven on Instagram" }),
+  ).toHaveAttribute("target", "_blank");
+  await expect(
+    page.getByText("© 2026 Nordhaven. All rights reserved."),
+  ).toBeVisible();
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
@@ -220,5 +239,31 @@ test("listing map toggles on mobile", async ({ page }) => {
     page.getByRole("group", {
       name: "Map of property listings. Use the list below for an accessible alternative.",
     }),
+  ).toBeVisible();
+});
+
+test("newsletter form validates and confirms signup", async ({ page }) => {
+  await page.goto("/");
+
+  const emailInput = page.getByLabel("Stay in the loop");
+  await expect(emailInput).toHaveAttribute("placeholder", "Your email address");
+
+  await page
+    .getByRole("button", {
+      name: "Subscribe to the Nordhaven newsletter",
+    })
+    .click();
+  await expect(
+    page.getByText("Please enter a valid email address."),
+  ).toBeVisible();
+
+  await emailInput.fill("reader@example.com");
+  await page
+    .getByRole("button", {
+      name: "Subscribe to the Nordhaven newsletter",
+    })
+    .click();
+  await expect(
+    page.getByText("You're subscribed. We'll send the good stuff only."),
   ).toBeVisible();
 });

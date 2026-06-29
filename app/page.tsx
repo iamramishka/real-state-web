@@ -8,6 +8,7 @@ import { MapListing } from "@/sections/MapListing";
 import { News } from "@/sections/News";
 import { SearchBar } from "@/sections/SearchBar";
 import { Trends } from "@/sections/Trends";
+import { CTABand } from "@/sections/CTABand";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       <Agents />
       <News />
       <Trends />
+      <CTABand />
     </main>
   );
 }
