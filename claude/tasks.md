@@ -20,6 +20,7 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
 | C-009 | Maintain accountability table | ongoing | `plan.md §18` | source code | Table reflects live status |
 | C-010 | Review + merge Codex PRs (feature→dev) | ongoing | review reports, git merge | implementation files | Gates green → Claude merges |
 | C-011 | Final release merge (dev→main) | done | git merge main, audits | — | ✅ v1.0.0 released 2026-06-30 — `audits/reviews/release-001-dev-to-main.md` |
+| C-012 | Deploy runbook + review X-034 | in_progress | `docs/deployment.md`, `codex/tasks.md`, review/merge | source code | Runbook written; X-034 queued for Codex; review when pushed |
 
 ## Handoff log
 - C-001…C-005 completed in Phase 0 planning run.
