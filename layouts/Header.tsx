@@ -1,0 +1,72 @@
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { navConfig } from "@/data/nav";
+import { MobileMenu } from "@/layouts/MobileMenu";
+import { cn } from "@/lib/utils";
+
+function LogoMark() {
+  return (
+    <span
+      aria-hidden="true"
+      className="bg-ink text-on-ink shadow-soft flex size-9 items-center justify-center rounded-md text-sm font-semibold"
+    >
+      N
+    </span>
+  );
+}
+
+function BrandLink({ className }: { className?: string }) {
+  return (
+    <Link
+      aria-label="Nordhaven home"
+      className={cn("flex min-h-11 items-center gap-3", className)}
+      href="/"
+    >
+      <LogoMark />
+      <span className="font-display text-ink text-base font-semibold tracking-normal">
+        {navConfig.brand}
+      </span>
+    </Link>
+  );
+}
+
+function DesktopNav() {
+  return (
+    <nav aria-label="Primary navigation" className="hidden md:block">
+      <ul className="flex items-center gap-1">
+        {navConfig.items.map((item) => (
+          <li key={item.href}>
+            <Link
+              aria-label={item.ariaLabel}
+              className="rounded-pill text-ink-700 hover:bg-bg-soft hover:text-ink focus-visible:ring-accent focus-visible:ring-offset-surface inline-flex min-h-11 items-center px-4 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+              href={item.href}
+              prefetch={false}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+export function Header() {
+  return (
+    <header className="border-line/80 bg-surface/90 supports-[backdrop-filter]:bg-surface/75 sticky top-0 z-40 border-b backdrop-blur">
+      <div className="container-page flex min-h-16 items-center justify-between gap-4 py-3">
+        <BrandLink />
+        <DesktopNav />
+        <div className="flex items-center gap-2">
+          <Button asChild className="hidden md:inline-flex" variant="default">
+            <Link href={navConfig.cta.href} prefetch={false}>
+              {navConfig.cta.label}
+            </Link>
+          </Button>
+          <MobileMenu />
+        </div>
+      </div>
+    </header>
+  );
+}

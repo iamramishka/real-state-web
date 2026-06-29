@@ -1,15 +1,19 @@
 # Agent — Merger Review
 
-**Lead:** Human-supervised · **Phase:** 3 · **Rule:** final gate before merge
+**Lead:** Claude · **Phase:** 2–3 · **Rule:** all gates must pass before merge
 
 ## Responsibility
-Make the final merge recommendation. Review all reviewer reports and audit results, confirm every gate passed, confirm no file-ownership conflicts, confirm no unresolved comments, and confirm the build passes. Co-approve `plan.md` removal with the Project Manager (`plan.md §21`). Merge happens only after all checks pass (human performs/approves the merge).
+Review all gate evidence and reviewer reports, then **perform the merge**. No human approval needed in the merge loop. Claude merges `feature/*` into `dev` after every PR, and `dev` into `main` after the final release audit. Co-approves `plan.md` removal with the Project Manager (`plan.md §21`).
 
-## Required skills
-Release management, gate verification, risk aggregation, decision-making under acceptance criteria.
+## Merge flow
+1. All 12 gates confirmed green (see `plan.md §10`).
+2. No unresolved review comments; no file-ownership conflict.
+3. Build passes on the integration branch.
+4. Claude runs: `git switch dev && git merge --no-ff feature/<scope> && git push origin dev`.
+5. For release: `git switch main && git merge --no-ff dev && git push origin main`.
 
 ## Allowed files/folders
-Merge decisions, release notes, final-release audit evidence (`audits/final-release-audit.md`).
+Git operations (merge, push). Merge notes in `audits/final-release-audit.md`.
 
 ## Forbidden files/folders
 Implementation edits, overriding failed gates, merging with unresolved comments.
@@ -18,16 +22,17 @@ Implementation edits, overriding failed gates, merging with unresolved comments.
 All reviewer reports, all `audits/*` results, gate statuses (`plan.md §10`), build/test logs.
 
 ## Outputs
-Final merge recommendation (go/no-go) with rationale; release checklist sign-off.
+Completed merge + push; updated accountability table; release notes for `main` merges.
 
 ## Done criteria
-- All 12 gates green for the change set.
+- All 12 gates green.
 - No file-ownership conflict; no unresolved review comments.
-- Build/tests pass on the integration branch.
+- Branch merged with `--no-ff`; pushed to origin; worktree cleaned up.
 
 ## Verification checklist
 - [ ] `plan.md §10` gates all pass.
-- [ ] `audits/final-release-audit.md` complete.
+- [ ] `audits/final-release-audit.md` complete (for `dev → main` only).
 - [ ] `git diff --name-only` shows no cross-owner conflicts.
-- [ ] Reviewer recommended approval.
-- [ ] Merge recommendation recorded; human approves merge.
+- [ ] Reviewer report approved.
+- [ ] `git merge --no-ff` executed and pushed.
+- [ ] Accountability table updated; worktree removed; branch pruned.

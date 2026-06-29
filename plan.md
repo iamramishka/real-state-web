@@ -226,7 +226,7 @@ Full definitions live in `/agents/*.md`. Summary (each file specifies Responsibi
 | 7 | QA Engineer | Test plans + specs | `tests/**`, `docs/qa-checklist.md` | Codex (specs) / Claude (plan) |
 | 8 | GitHub Worktree Controller | Branches/worktrees lifecycle | git topology | Codex |
 | 9 | GitHub Reviewer | Review PRs (no merge) | review comments/reports | Either AI |
-| 10 | Merger Review | Confirm gates → merge recommendation | merge decision | Human-supervised |
+| 10 | Merger Review | Confirm gates → perform merge | merge decision + execution | Claude |
 | 11 | Security Scanner | Dep/secret/XSS review | `audits/security-audit.md` | Either AI |
 | 12 | Performance Auditor | Lighthouse/bundle budgets | `audits/performance-audit.md` | Either AI |
 | 13 | Accessibility Auditor | axe/keyboard/contrast | `audits/accessibility-audit.md` | Either AI |
@@ -316,9 +316,15 @@ git worktree prune
 
 ## 9. GitHub Reviewer & Merger Review
 
-**Reviewer (may be another AI) — reviews only, never merges.** Checks: code quality · security · accessibility · responsiveness · SEO · performance · design consistency · folder structure · coding rules · test results. Must: leave comments, produce a review report, identify risks, request changes when needed. Must not: overwrite implementation or merge.
+**Reviewer — Claude.** Reviews every PR: code quality · security · accessibility · responsiveness · SEO · performance · design consistency · folder structure · coding rules · test results. Leaves comments, produces a review report, identifies risks, requests changes from Codex when needed. Does not edit implementation directly.
 
-**Merger Review Agent.** Reviews all reports, confirms every gate passed, confirms no file-ownership conflict, confirms no unresolved comments, confirms build passes, then makes the **final merge recommendation**. Merge only after all checks pass (human supervises the actual merge).
+**Merger Review Agent — Claude.** Once all review comments are resolved and all 12 gates pass, Claude confirms: gates green · no file-ownership conflict · no unresolved comments · build passes · then **performs the merge** (`feature/* → dev`, and `dev → main` for releases). No human approval required in the merge loop.
+
+**Merge flow:**
+1. Codex opens PR (`feature/*` → `dev`).
+2. Claude reviews → requests changes if needed → Codex fixes.
+3. All gates green → Claude merges `feature/*` into `dev`.
+4. After final release audit passes → Claude merges `dev` into `main` and pushes.
 
 ---
 
@@ -456,23 +462,51 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 | C-007 | UX copy for all 15 sections | Claude | UI/UX | master | docs/ux-copy.md | done | n/a (docs) | Full copy + aria-labels + tone guide |
 | C-008 | Typed data shapes spec | Claude | Architect | master | docs/data-shapes.md | done | n/a (docs) | 10 modules, interfaces + Codex rules |
 
-### Phase 1 — Setup & Foundations (blocked until human approves build start)
+### Phase 1 — Setup & Foundations ✅ Complete
 
-| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files to Touch | Status | Verify |
+| Task ID | Task Name | Owner | Agent | Branch | Worktree Path | Files Touched | Status | Review | Verify |
+|---|---|---|---|---|---|---|---|---|---|
+| X-001 | Scaffold Next.js 15 + TS + Tailwind | Codex | FE Engineer | feature/codex-setup | — (merged) | package.json, configs, app/, styles/ | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
+| X-002 | Add shadcn/ui + base UI primitives | Codex | Component Eng | feature/codex-setup | — (merged) | components/ui/** | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
+| X-003 | Wire ESLint/Prettier/Vitest/Playwright | Codex | FE Engineer | feature/codex-setup | — (merged) | configs, tests/**, package.json | **merged** | `audits/reviews/review-codex-setup.md` | ✅ |
+| X-004 | Implement Tailwind design tokens | Codex | Component Eng | feature/codex-tokens | — (merged) | styles/globals.css | **merged** | `audits/reviews/review-codex-tokens.md` | ✅ |
+
+### Phase 2 — Sections
+
+| Task ID | Task Name | Owner | Agent | Branch | Files Touched | Status | Review | Verify |
 |---|---|---|---|---|---|---|---|---|
-| X-001 | Scaffold Next.js 15 + TS + Tailwind | Codex | FE Engineer | feature/codex-setup | ../worktrees/codex-frontend | package.json, configs, app/, styles/ | blocked | npm run build |
-| X-002 | Add shadcn/ui + base UI primitives | Codex | Component Eng | feature/codex-setup | ../worktrees/codex-frontend | components/ui/** | blocked | npm run lint |
-| X-003 | Wire ESLint/Prettier/Vitest/Playwright | Codex | FE Engineer | feature/codex-setup | ../worktrees/codex-frontend | configs, tests/**, package.json | blocked | npm run lint && npm run test |
-| X-004 | Implement Tailwind design tokens | Codex | Component Eng | feature/codex-tokens | ../worktrees/codex-frontend | styles/**, tailwind config | blocked | visual + npm run build |
-| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | layouts/Header.tsx, data/nav.ts | blocked | lint, a11y, 8 breakpoints |
-| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | ../worktrees/codex-frontend | sections/Hero.tsx | blocked | LCP/CLS, alt text |
+| X-010 | Header/Navbar + MobileMenu | Codex | FE Engineer | feature/codex-header-hero | layouts/Header.tsx, data/nav.ts | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
+| X-011 | Hero section | Codex | FE Engineer | feature/codex-header-hero | sections/Hero.tsx, app/layout.tsx, app/page.tsx | **merged** | `audits/reviews/review-codex-header-hero.md` | ✅ |
+| X-012 | AI search bar + form | Codex | FE Engineer | feature/codex-search | sections/SearchBar.tsx, components/forms/SearchForm.tsx | **merged** | `audits/reviews/review-codex-search.md` | ✅ |
+| X-013 | Suggestion chips + filters | Codex | Component Eng | feature/codex-search | components/ui/Chip.tsx, data/suggestions.ts, data/filters.ts | **merged** | `audits/reviews/review-codex-chips-x013.md` | ✅ |
+| X-014 | PropertyCard + CardGrid | Codex | Component Eng | feature/codex-property-cards | components/cards/PropertyCard.tsx, data/properties.ts | **merged** | `audits/reviews/review-codex-property-cards-x014-x015.md` | ✅ |
+| X-015 | Featured homes + Homes for you | Codex | FE Engineer | feature/codex-property-cards | sections/FeaturedHomes.tsx, sections/HomesForYou.tsx | **merged** | `audits/reviews/review-codex-property-cards-x014-x015.md` | ✅ |
+| X-016 | Listing + Map split | Codex | FE Engineer | feature/codex-map | sections/MapListing.tsx, components/MapView.tsx | **merged** | `audits/reviews/review-codex-map-x016.md` | ✅ |
+| X-017 | Smarter-way-to-sell band | Codex | FE Engineer | feature/codex-sell | sections/FeatureBand.tsx | **merged** | `audits/reviews/review-codex-sections-x017-x021.md` | ✅ |
+| X-018 | Neighbourhood discovery trio | Codex | Component Eng | feature/codex-discovery | sections/Discovery.tsx, data/discovery.ts | **merged** | `audits/reviews/review-codex-sections-x017-x021.md` | ✅ |
+| X-019 | Agent section | Codex | Component Eng | feature/codex-agents | sections/Agents.tsx, components/cards/AgentCard.tsx, data/agents.ts | **merged** | `audits/reviews/review-codex-sections-x017-x021.md` | ✅ |
+| X-020 | News + Trends/Tips grids | Codex | FE Engineer | feature/codex-news | sections/News.tsx, sections/Trends.tsx, data/news.ts, data/articles.ts | **merged** | `audits/reviews/review-codex-sections-x017-x021.md` | ✅ |
+| X-021 | CTA band + Footer | Codex | FE Engineer | feature/codex-cta-footer | sections/CTABand.tsx, layouts/Footer.tsx, data/footer.ts | **merged** | `audits/reviews/review-codex-sections-x017-x021.md` | ✅ |
+
+**Phase 2 complete (2026-06-29):** all 11 homepage sections built, reviewed, and merged into `dev`. Next: Phase 3 hardening (X-030–X-033) → final release audit → C-011 dev→main.
+
+### Phase 3 — Hardening
+
+| Task ID | Task Name | Owner | Status | Verify |
+|---|---|---|---|---|
+| X-030 | SEO metadata + JSON-LD + sitemap/robots | Codex | **merged** | `audits/reviews/review-codex-seo-a11y-x030-x031.md` ✅ |
+| X-031 | Accessibility pass | Codex | **merged** | `audits/reviews/review-codex-seo-a11y-x030-x031.md` ✅ |
+| X-032 | Performance + bundle budgets | Codex | todo | `npm run lighthouse` ≥ 90 |
+| X-033 | Security pass | Codex | todo | `npm audit`, gitleaks clean |
+| C-011 | Final release merge (dev→main) | Claude | pending Phase 3 | final-release-audit pass → Claude merges |
 
 ### Claude tasks — ongoing
 
 | Task ID | Task Name | Status | Notes |
 |---|---|---|---|
-| C-009 | Maintain accountability table | ongoing | Updated each session |
-| C-010 | Review Codex PRs (comments only) | pending Phase 1 | One report per PR per audits/* |
+| C-009 | Maintain accountability table | ongoing | Updated 2026-06-29; Phase 2 complete (X-001–X-021 merged) |
+| C-010 | Review + merge Codex PRs | ongoing | X-001–X-021 merged; awaiting Phase 3 (X-030–X-033) |
+| C-011 | Final release merge (dev→main) | pending Phase 3 | After final-release-audit passes → Claude merges dev→main |
 
 ---
 

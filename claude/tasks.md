@@ -18,7 +18,8 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
 | C-007 | Write UX copy for all 15 sections | done | `docs/ux-copy.md` | `sections/**` | Copy complete, all 15 sections |
 | C-008 | Define typed data shapes (spec only) | done | `docs/data-shapes.md` | `data/**` (Codex implements) | 10 modules, all interfaces complete |
 | C-009 | Maintain accountability table | ongoing | `plan.md §18` | source code | Table reflects live status |
-| C-010 | Review Codex PRs (comments only) | ongoing | review reports | implementation files | Report per `audits/*` |
+| C-010 | Review + merge Codex PRs (feature→dev) | ongoing | review reports, git merge | implementation files | Gates green → Claude merges |
+| C-011 | Final release merge (dev→main) | pending Phase 3 | git merge main, audits | — | final-release-audit pass → Claude merges |
 
 ## Handoff log
 - C-001…C-005 completed in Phase 0 planning run.
@@ -27,3 +28,16 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
 - C-008: `docs/data-shapes.md` created — 10 TypeScript interface modules + Codex implementation rules.
 - C-009: `plan.md §18` accountability table updated with live Phase 0 results + Phase 1 task rows.
 - **Phase 0 planning is complete.** All Claude planning tasks done. Awaiting human approval to begin Phase 1 (build). Next Claude task after approval: C-010 (PR reviews) once Codex opens first PR.
+- **C-010 ongoing:** X-001–X-016 reviewed and merged into `dev`.
+  - X-001–X-003 (setup): `audits/reviews/review-codex-setup.md` · merged 2026-06-28
+  - X-004 (tokens): `audits/reviews/review-codex-tokens.md` · merged 2026-06-28
+  - X-010–X-011 (header + hero): `audits/reviews/review-codex-header-hero.md` · merged 2026-06-28
+  - X-012 (search form): `audits/reviews/review-codex-search.md` · merged 2026-06-28
+  - X-013 (chips + filters): `audits/reviews/review-codex-chips-x013.md` · merged 2026-06-29
+  - X-014–X-015 (property cards + sections): `audits/reviews/review-codex-property-cards-x014-x015.md` · merged 2026-06-29
+  - X-016 (map + listing): `audits/reviews/review-codex-map-x016.md` · merged 2026-06-29
+  - X-017–X-021 (sell band, discovery, agents, news+trends, CTA+footer): `audits/reviews/review-codex-sections-x017-x021.md` · merged 2026-06-29 (single chain merge of `feature/codex-cta-footer`)
+  - **Phase 2 complete** — all 11 homepage sections merged into `dev`.
+  - X-030–X-031 (SEO metadata/JSON-LD/sitemap/robots + a11y coverage pass): `audits/reviews/review-codex-seo-a11y-x030-x031.md` · merged 2026-06-29. Codex fixed deferred newsletter `role=alert` note in this pass; contrast note now test-covered. JsonLd `dangerouslySetInnerHTML` reviewed as sanctioned exception (escaped JSON-LD, typed data).
+  - **Next to review:** X-032 (performance) + X-033 (security) — final Phase 3 tasks.
+  - **Pre-launch flag:** `lib/seo.ts` `siteUrl` is a placeholder (`nordhaven.example`) — swap for real domain before release (C-011 / deploy).

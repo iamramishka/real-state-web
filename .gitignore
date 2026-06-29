@@ -12,7 +12,6 @@ dist/
 
 # Production
 *.tsbuildinfo
-next-env.d.ts
 
 # Environment — NEVER commit secrets
 .env
@@ -49,6 +48,7 @@ Thumbs.db
 
 # Lighthouse / analyzer artifacts
 .lighthouseci/
+.lighthouse/
 analyze/
 
 # Git worktrees live outside the repo, but ignore any local copy just in case

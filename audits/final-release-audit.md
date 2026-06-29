@@ -34,4 +34,22 @@
 | 8 | Docs current | Documentation agent | Consistent, no dangling refs | ☐ |
 
 **Merge recommendation:** ☐ GO ☐ NO-GO — rationale: ____________________
-**Note:** Merge only after all checks pass; human approves the actual merge.
+**Note:** Merge only after all 12 gates pass. Per `plan.md §9` (updated), **Claude performs the `dev → main` merge** after this audit is GO — no separate human approval step in the loop.
+
+---
+
+## Live roll-up snapshot (updated 2026-06-29)
+
+Evidence already on `dev` from per-section reviews:
+- Gates 3–10 (ownership, design, code-quality, responsive, a11y, SEO, test, security-to-date) — **covered** by merged review reports `audits/reviews/review-codex-*.md` for X-001…X-031.
+- Gate 8 SEO — **covered** by X-030 (`review-codex-seo-a11y-x030-x031.md`).
+- Gate 7 Accessibility — **covered** by X-031 a11y coverage pass (landmarks, focus trap, contrast, form announcements).
+
+Still **pending before GO**:
+- Gate 11 Performance — awaits **X-032** (Lighthouse ≥ 90, bundle budgets).
+- Gate 10 Security (final) — awaits **X-033** (`npm audit` high-clean, gitleaks clean, full dependency review).
+- Item 6 Content quality — visual pass on all generated images (manual; cannot automate here).
+- Item 7 Deploy preview — Vercel preview load + zero console errors.
+- Pre-launch: swap `lib/seo.ts` `siteUrl` placeholder (`nordhaven.example`) for the real production domain.
+
+When X-032 + X-033 are merged, fill the gate table, run `npm run build` on `dev`, confirm GO, then execute C-011 (`dev → main`).
