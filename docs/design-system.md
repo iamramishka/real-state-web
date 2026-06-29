@@ -70,7 +70,7 @@ Neutral-led palette with one restrained accent. Implement as CSS variables + Tai
 - **Always** honor `prefers-reduced-motion` → disable transforms, keep opacity only.
 
 ## 7. Component anatomy (specs for Codex)
-**Navbar** — logo left; centered links (Buy · Sell · Rent · Agents · News); "Contact us" pill (ink bg, white text) right. Sticky, condenses on scroll. < md → hamburger + slide-over (focus-trapped).
+**Navbar** — three-column grid: logo left, **centered** link group, action right. Each link is preceded by a small **decorative dot** (`--muted` at 60%, `aria-hidden` — never part of the link's accessible name): `• Buy • Sell • Rent • Agents • News`. "Contact us" is a **subtle pill** (`secondary` variant: white bg, `--line` border, `--ink` text — lighter than primary so it reads as utility, not hero CTA). Sticky with `backdrop-blur`, condenses on scroll. Links keep `min-h-11` touch targets + accent focus ring. < md → hamburger + slide-over (focus-trapped). *Layout cue from `design.webp` (inspiration only); brand/wordmark stay original Nordhaven — never copied.*
 
 **Hero** — left: `display-1` headline (2 lines) + short supporting paragraph (top-right on desktop); full-bleed luxury home image (`next/image`, `priority`). Overlapping floating search card at the bottom.
 
