@@ -57,7 +57,7 @@ export const properties: Property[] = [
     categories: ["new-to-market", "luxury", "most-viewed"],
     meta: { beds: 4, baths: 4, sqft: 3920 },
     image: {
-      src: "/images/properties/hillside-glass-home.png",
+      src: "/images/properties/hillside-glass-home.jpg",
       alt: "A contemporary glass hillside home with warm interior lights and mature landscaping.",
       width: 512,
       height: 320,
@@ -81,7 +81,7 @@ export const properties: Property[] = [
     categories: ["open-house", "most-viewed"],
     meta: { beds: 3, baths: 3, sqft: 2140 },
     image: {
-      src: "/images/properties/brick-townhouse.png",
+      src: "/images/properties/brick-townhouse.jpg",
       alt: "A warm brick townhouse with black-framed windows and a small landscaped entry.",
       width: 512,
       height: 320,
@@ -103,7 +103,7 @@ export const properties: Property[] = [
     categories: ["luxury", "new-to-market"],
     meta: { beds: 5, baths: 5, sqft: 4860 },
     image: {
-      src: "/images/properties/coastal-modern-villa.png",
+      src: "/images/properties/coastal-modern-villa.jpg",
       alt: "A coastal modern villa with pale stone walls, glass balconies, and ocean-facing landscaping.",
       width: 512,
       height: 320,
@@ -125,7 +125,7 @@ export const properties: Property[] = [
     categories: ["price-drop", "open-house"],
     meta: { beds: 4, baths: 3, sqft: 2680 },
     image: {
-      src: "/images/properties/renovated-craftsman.png",
+      src: "/images/properties/renovated-craftsman.jpg",
       alt: "A renovated Craftsman home with a covered porch, deep eaves, and lush front garden.",
       width: 512,
       height: 320,
@@ -148,7 +148,7 @@ export const properties: Property[] = [
     categories: ["most-viewed", "luxury"],
     meta: { beds: 2, baths: 2, sqft: 1610 },
     image: {
-      src: "/images/properties/penthouse-terrace.png",
+      src: "/images/properties/penthouse-terrace.jpg",
       alt: "A downtown penthouse terrace with glass railing, skyline views, and modern outdoor seating.",
       width: 512,
       height: 320,
@@ -170,7 +170,7 @@ export const properties: Property[] = [
     categories: ["new-to-market"],
     meta: { beds: 4, baths: 3, sqft: 3015 },
     image: {
-      src: "/images/properties/suburban-family-home.png",
+      src: "/images/properties/suburban-family-home.jpg",
       alt: "A quiet suburban family home with a wide front lawn, trees, and soft evening light.",
       width: 512,
       height: 320,

@@ -48,6 +48,7 @@ Thumbs.db
 
 # Lighthouse / analyzer artifacts
 .lighthouseci/
+.lighthouse/
 analyze/
 
 # Git worktrees live outside the repo, but ignore any local copy just in case
