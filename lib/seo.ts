@@ -1,7 +1,8 @@
 import type { Property } from "@/data/properties";
 
 export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nordhaven.example";
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  "https://realstatewebsite-vinyup.vercel.app";
 
 export const siteConfig = {
   name: "Nordhaven",
