@@ -22,5 +22,6 @@ declare module "lucide-react" {
   export const MapPin: LucideIcon;
   export const Plus: LucideIcon;
   export const Ruler: LucideIcon;
+  export const Star: LucideIcon;
   export const X: LucideIcon;
 }

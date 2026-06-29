@@ -105,6 +105,20 @@ test("home page renders the hero and search content", async ({ page }) => {
   await expect(
     page.getByRole("link", { name: "Explore Meet your agent" }),
   ).toHaveAttribute("href", "/agents");
+  await expect(
+    page.getByRole("heading", { name: "Meet our expert agents" }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("img", {
+      name: "Maya Chen, senior sales consultant at Nordhaven.",
+    }),
+  ).toBeVisible();
+  await expect(page.getByText("4.9 out of 5 stars — 84 reviews")).toHaveCount(
+    1,
+  );
+  await expect(
+    page.getByRole("link", { name: "Contact Maya Chen" }),
+  ).toHaveAttribute("href", "/agents/maya-chen");
 });
 
 test("search form validates and submits with keyboard", async ({ page }) => {
