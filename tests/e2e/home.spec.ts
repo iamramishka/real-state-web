@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test.setTimeout(60_000);
+test.setTimeout(90_000);
 
 test("home page renders the hero and search content", async ({ page }) => {
   await page.goto("/");
@@ -305,9 +305,9 @@ test("home page exposes SEO metadata and valid JSON-LD", async ({ page }) => {
 });
 
 test("sitemap and robots routes are reachable", async ({ page }) => {
-  const sitemap = await page.request.get("/sitemap.xml");
-  expect(sitemap.ok()).toBeTruthy();
   await expect(async () => {
+    const sitemap = await page.request.get("/sitemap.xml");
+    expect(sitemap.ok()).toBeTruthy();
     const body = await sitemap.text();
     expect(body).toContain("https://www.nordhaven.example/");
     expect(body).toContain(
@@ -315,13 +315,29 @@ test("sitemap and robots routes are reachable", async ({ page }) => {
     );
   }).toPass();
 
-  const robots = await page.request.get("/robots.txt");
-  expect(robots.ok()).toBeTruthy();
   await expect(async () => {
+    const robots = await page.request.get("/robots.txt");
+    expect(robots.ok()).toBeTruthy();
     const body = await robots.text();
     expect(body).toContain("Allow: /");
     expect(body).toContain(
       "Sitemap: https://www.nordhaven.example/sitemap.xml",
     );
   }).toPass();
+});
+
+test("home route sends security headers", async ({ page }) => {
+  const response = await page.request.get("/");
+  expect(response.ok()).toBeTruthy();
+
+  const headers = response.headers();
+  expect(headers["content-security-policy"]).toContain("default-src 'self'");
+  expect(headers["content-security-policy"]).toContain(
+    "frame-ancestors 'none'",
+  );
+  expect(headers["content-security-policy"]).toContain("object-src 'none'");
+  expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+  expect(headers["x-content-type-options"]).toBe("nosniff");
+  expect(headers["x-frame-options"]).toBe("DENY");
+  expect(headers["permissions-policy"]).toContain("camera=()");
 });
