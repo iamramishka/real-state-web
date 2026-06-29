@@ -1,6 +1,7 @@
 import type { Property } from "@/data/properties";
 
-export const siteUrl = "https://www.nordhaven.example";
+export const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nordhaven.example";
 
 export const siteConfig = {
   name: "Nordhaven",

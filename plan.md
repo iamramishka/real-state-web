@@ -496,17 +496,19 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 |---|---|---|---|---|
 | X-030 | SEO metadata + JSON-LD + sitemap/robots | Codex | **merged** | `audits/reviews/review-codex-seo-a11y-x030-x031.md` ✅ |
 | X-031 | Accessibility pass | Codex | **merged** | `audits/reviews/review-codex-seo-a11y-x030-x031.md` ✅ |
-| X-032 | Performance + bundle budgets | Codex | todo | `npm run lighthouse` ≥ 90 |
-| X-033 | Security pass | Codex | todo | `npm audit`, gitleaks clean |
-| C-011 | Final release merge (dev→main) | Claude | pending Phase 3 | final-release-audit pass → Claude merges |
+| X-032 | Performance + bundle budgets | Codex | **merged** | `audits/reviews/review-codex-perf-security-x032-x033.md` ✅ |
+| X-033 | Security pass | Codex | **merged** | `audits/reviews/review-codex-perf-security-x032-x033.md` ✅ |
+| C-011 | Final release merge (dev→main) | Claude | **done** | ✅ **v1.0.0 released 2026-06-30** — `audits/reviews/release-001-dev-to-main.md` |
+
+**🚀 Nordhaven v1.0.0 shipped (2026-06-30):** all of Phase 1–3 (X-001–X-033) reviewed, merged to `dev`, and released to `main` (tag `v1.0.0`). 12/12 gates green; `npm run build` static (140 kB First Load JS), lint/typecheck clean, `npm audit` 0 vulnerabilities. Remaining = deploy-time only: swap `siteUrl` domain, Vercel preview, image visual pass.
 
 ### Claude tasks — ongoing
 
 | Task ID | Task Name | Status | Notes |
 |---|---|---|---|
-| C-009 | Maintain accountability table | ongoing | Updated 2026-06-29; Phase 2 complete (X-001–X-021 merged) |
-| C-010 | Review + merge Codex PRs | ongoing | X-001–X-021 merged; awaiting Phase 3 (X-030–X-033) |
-| C-011 | Final release merge (dev→main) | pending Phase 3 | After final-release-audit passes → Claude merges dev→main |
+| C-009 | Maintain accountability table | ongoing | Updated 2026-06-30; v1.0.0 shipped (X-001–X-033 merged + released) |
+| C-010 | Review + merge Codex PRs | done (Phase 1–3) | All X-001–X-033 reviewed + merged; reopens if new Codex work queued |
+| C-011 | Final release merge (dev→main) | done | ✅ v1.0.0 released 2026-06-30 (tag `v1.0.0`) |
 
 ---
 

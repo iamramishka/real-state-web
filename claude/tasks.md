@@ -19,7 +19,8 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
 | C-008 | Define typed data shapes (spec only) | done | `docs/data-shapes.md` | `data/**` (Codex implements) | 10 modules, all interfaces complete |
 | C-009 | Maintain accountability table | ongoing | `plan.md §18` | source code | Table reflects live status |
 | C-010 | Review + merge Codex PRs (feature→dev) | ongoing | review reports, git merge | implementation files | Gates green → Claude merges |
-| C-011 | Final release merge (dev→main) | pending Phase 3 | git merge main, audits | — | final-release-audit pass → Claude merges |
+| C-011 | Final release merge (dev→main) | done | git merge main, audits | — | ✅ v1.0.0 released 2026-06-30 — `audits/reviews/release-001-dev-to-main.md` |
+| C-012 | Deploy runbook + X-034 | done | `docs/deployment.md`, `lib/seo.ts`, `.env.example` | — | ✅ Runbook written; X-034 implemented by Claude (human-assigned) + merged 2026-06-30 — `audits/reviews/review-x034-deploy-env.md` |
 
 ## Handoff log
 - C-001…C-005 completed in Phase 0 planning run.
@@ -39,5 +40,6 @@ Status: `todo` → `in_progress` → `in_review` → `approved` → `done` (or `
   - X-017–X-021 (sell band, discovery, agents, news+trends, CTA+footer): `audits/reviews/review-codex-sections-x017-x021.md` · merged 2026-06-29 (single chain merge of `feature/codex-cta-footer`)
   - **Phase 2 complete** — all 11 homepage sections merged into `dev`.
   - X-030–X-031 (SEO metadata/JSON-LD/sitemap/robots + a11y coverage pass): `audits/reviews/review-codex-seo-a11y-x030-x031.md` · merged 2026-06-29. Codex fixed deferred newsletter `role=alert` note in this pass; contrast note now test-covered. JsonLd `dangerouslySetInnerHTML` reviewed as sanctioned exception (escaped JSON-LD, typed data).
-  - **Next to review:** X-032 (performance) + X-033 (security) — final Phase 3 tasks.
-  - **Pre-launch flag:** `lib/seo.ts` `siteUrl` is a placeholder (`nordhaven.example`) — swap for real domain before release (C-011 / deploy).
+  - X-032–X-033 (performance optimization + security hardening): `audits/reviews/review-codex-perf-security-x032-x033.md` · merged 2026-06-30. Hero 2.4MB→273KB, Header/MapListing → RSC, forms drop react-hook-form, full security-header set, `npm audit` 0 vulns.
+- **C-011 DONE — Nordhaven v1.0.0 released 2026-06-30.** `dev → main` merged (tag `v1.0.0`), all 12 gates green. Build/lint/typecheck/audit clean (140 kB First Load JS, fully static). Decision record: `audits/reviews/release-001-dev-to-main.md`.
+  - **Pre-DEPLOY (not merge blockers):** swap `lib/seo.ts` `siteUrl` placeholder → real domain · Vercel preview smoke test · human visual pass on generated imagery.

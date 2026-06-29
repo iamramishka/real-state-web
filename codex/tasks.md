@@ -42,6 +42,43 @@ All build tasks are **blocked until Phase 0 planning is approved**.
 | X-032 | Performance + bundle budgets            | merged | `npm run lighthouse` ≥ 90     |
 | X-033 | Security pass                           | merged | `npm audit`, gitleaks clean   |
 
+## Phase 4 — Deploy readiness
+
+| ID    | Task                                   | Status | Branch              | Allowed files                          | Verify                |
+| ----- | -------------------------------------- | ------ | ------------------- | -------------------------------------- | --------------------- |
+| X-034 | Make `siteUrl` env-driven for deploy   | merged | feature/codex-deploy | `lib/seo.ts`, `.env.example`, `tests/**` | `npm run build`, types |
+
+> **X-034 done (2026-06-30):** implemented by **Claude** under explicit human assignment (overrode default Codex `lib/**` ownership for this one task). `siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? <placeholder>`; `.env.example` added. Build-verified with and without the env var (domain propagates to canonical/OG/sitemap/robots). Review: `audits/reviews/review-x034-deploy-env.md`. **Site is deploy-ready.**
+
+### X-034 Brief — Env-driven site URL (deploy readiness)
+
+**Why:** `lib/seo.ts` hardcodes `siteUrl = "https://www.nordhaven.example"`, which feeds `metadataBase`, canonical, `sitemap.xml`, `robots.txt`, and all JSON-LD URLs. Deploy must set the real domain **without a code edit**. See `docs/deployment.md`.
+
+**Branch:** `feature/codex-deploy` (off current `dev`)
+**Allowed:** `lib/seo.ts`, `.env.example` (create), `tests/e2e/home.spec.ts`
+**Forbidden:** `plan.md`, `docs/**`, `audits/**`, `claude/**`, `agents/**`, other `app/**` logic
+
+**Change:**
+1. In `lib/seo.ts`, replace the hardcoded constant with:
+   ```ts
+   export const siteUrl =
+     process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.nordhaven.example";
+   ```
+   Keep the placeholder as the dev/fallback default so local build still works. Everything downstream (`absoluteUrl`, `siteConfig.url`, sitemap, robots, JSON-LD) already reads from `siteUrl` — no other edits needed.
+2. Create `.env.example` with:
+   ```
+   # Production canonical origin (no trailing slash). Set in Vercel → Environment Variables.
+   NEXT_PUBLIC_SITE_URL=https://www.nordhaven.example
+   ```
+   Confirm `.gitignore` still ignores real `.env*` files (it does) — only `.env.example` is committed.
+3. Optional: add an e2e assertion that `<link rel="canonical">` / OG URL resolve to an absolute `http(s)://` origin (env-agnostic — don't hardcode the domain in the test).
+
+**Verify:** `npm run format:check && npm run lint && npm run typecheck && npm run build && npm run test:e2e && npm run test:a11y && npm audit --audit-level=high`. Build must succeed with and without `NEXT_PUBLIC_SITE_URL` set.
+
+**Security:** `NEXT_PUBLIC_SITE_URL` is a public origin — safe to expose. Do **not** introduce any non-public `NEXT_PUBLIC_*` value. No secrets, no `.env` committed.
+
+Mark `in_review` + write handoff note. Claude reviews → merges → site is deploy-ready (then human sets the Vercel env var per `docs/deployment.md`).
+
 ## Handoff log
 
 - X-001 — Scaffolded Next.js 15.5.19 App Router with strict TypeScript, Tailwind CSS v4, ESLint, Prettier, Vitest command wiring, root app layout/page, and global styles in `../worktrees/codex-frontend` on `feature/codex-setup`. Commands run: `npm install`, `npm audit --audit-level=moderate` (clean after PostCSS override), `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`. Result: all requested checks passed; test command currently has no test files until X-003. Next: review X-001, then continue with X-002/X-003.
