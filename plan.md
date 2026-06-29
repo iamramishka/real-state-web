@@ -499,16 +499,21 @@ Statuses: `todo` → `in_progress` → `in_review` → `approved` → `merged` (
 | X-032 | Performance + bundle budgets | Codex | **merged** | `audits/reviews/review-codex-perf-security-x032-x033.md` ✅ |
 | X-033 | Security pass | Codex | **merged** | `audits/reviews/review-codex-perf-security-x032-x033.md` ✅ |
 | C-011 | Final release merge (dev→main) | Claude | **done** | ✅ **v1.0.0 released 2026-06-30** — `audits/reviews/release-001-dev-to-main.md` |
+| X-034 | `siteUrl` env-driven for deploy | Claude (human-assigned) | **merged** | ✅ v1.0.1 → v1.0.2 — `audits/reviews/review-x034-deploy-env.md` |
+| C-012 | Navbar design match | Claude (human-assigned) | **merged** | ✅ v1.0.3 2026-06-30 — `audits/reviews/review-nav-design-match.md` |
+| C-013 | Hero design match | Claude (human-assigned) | **merged** | ✅ v1.0.4 2026-06-30 — `audits/reviews/review-hero-design-match.md` |
 
-**🚀 Nordhaven v1.0.0 shipped (2026-06-30):** all of Phase 1–3 (X-001–X-033) reviewed, merged to `dev`, and released to `main` (tag `v1.0.0`). 12/12 gates green; `npm run build` static (140 kB First Load JS), lint/typecheck clean, `npm audit` 0 vulnerabilities. Remaining = deploy-time only: swap `siteUrl` domain, Vercel preview, image visual pass.
+**🚀 Nordhaven v1.0.4 (2026-06-30):** Hero section redesigned to match reference — full-bleed image, floating SearchForm card anchored to image bottom, suggestion chips via `data/suggestions.ts`. Build: 8.99 kB / 140 kB First Load JS. Deployed live at https://realstatewebsite-vinyup.vercel.app.
 
 ### Claude tasks — ongoing
 
 | Task ID | Task Name | Status | Notes |
 |---|---|---|---|
-| C-009 | Maintain accountability table | ongoing | Updated 2026-06-30; v1.0.0 shipped (X-001–X-033 merged + released) |
-| C-010 | Review + merge Codex PRs | done (Phase 1–3) | All X-001–X-033 reviewed + merged; reopens if new Codex work queued |
+| C-009 | Maintain accountability table | ongoing | Updated 2026-06-30; v1.0.4 current |
+| C-010 | Review + merge Codex PRs | done (Phase 1–3) | All X-001–X-034 reviewed + merged; reopens if new Codex work queued |
 | C-011 | Final release merge (dev→main) | done | ✅ v1.0.0 released 2026-06-30 (tag `v1.0.0`) |
+| C-012 | Navbar design match | done | ✅ v1.0.3 released 2026-06-30 |
+| C-013 | Hero design match | done | ✅ v1.0.4 released 2026-06-30 |
 
 ---
 
