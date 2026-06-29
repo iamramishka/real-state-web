@@ -1,6 +1,11 @@
 # Deployment Runbook — Nordhaven
 
-> Status: **v1.0.0 released to `main` (2026-06-30).** The codebase is production-ready; this runbook covers the remaining deploy-time steps. Owner of code changes here = **Codex** (`X-034`); owner of the hosting actions = **human**.
+> ## ✅ LIVE — https://realstatewebsite-vinyup.vercel.app
+> Deployed to Vercel production 2026-06-30 (project `iamramishkas-projects/realstatewebsite-vinyup`, GitHub repo connected for auto-deploys on push). Verified: homepage HTTP 200, `robots.txt` + `sitemap.xml` resolve with the real domain, security headers present (production CSP). Release: tag `v1.0.2`.
+>
+> **Remaining = human visual QA only:** eyeball the generated imagery + run Lighthouse on the live URL.
+
+> Status: **v1.0.x released to `main`.** The codebase is production-ready; this runbook covers the deploy-time steps. Owner of code changes here = **Codex** (`X-034`); owner of the hosting actions = **human**.
 
 Target platform: **Vercel** (Next.js 15 App Router, static-first). Repo: `iamramishka/real-state-web`, deploy from `main`.
 
