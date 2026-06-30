@@ -83,114 +83,114 @@ export function SearchForm({ suggestions }: SearchFormProps) {
   return (
     <form
       aria-describedby={statusId}
-      className="border-line bg-surface shadow-raised text-ink rounded-xl border p-3 sm:p-4 lg:p-5"
+      className="border-line bg-surface shadow-raised text-ink rounded-2xl border p-4 sm:rounded-3xl sm:p-6"
       onSubmit={onSubmit}
     >
       <input name="mode" type="hidden" value={selectedMode} />
 
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-        <fieldset
-          aria-label="Search mode"
-          className="bg-bg-soft rounded-pill grid grid-cols-3 gap-1 p-1"
-        >
-          {Object.entries(searchModes).map(([mode, config]) => {
-            const isSelected = selectedMode === mode;
+      {/* Tab ribbon */}
+      <fieldset
+        aria-label="Search mode"
+        className="bg-bg-soft rounded-pill mb-4 flex h-14 w-full items-center gap-1 p-1 sm:w-72"
+      >
+        {Object.entries(searchModes).map(([mode, config]) => {
+          const isSelected = selectedMode === mode;
 
-            return (
-              <button
-                aria-pressed={isSelected}
-                className={cn(
-                  "rounded-pill focus-visible:ring-accent focus-visible:ring-offset-bg-soft h-11 px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-                  isSelected
-                    ? "bg-ink text-on-ink shadow-soft"
-                    : "text-ink-700 hover:bg-surface",
-                )}
-                key={mode}
-                onClick={() => selectMode(mode as SearchMode)}
-                type="button"
-              >
-                {config.label}
-              </button>
-            );
-          })}
-        </fieldset>
+          return (
+            <button
+              aria-pressed={isSelected}
+              className={cn(
+                "rounded-pill focus-visible:ring-accent h-full flex-1 text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2",
+                isSelected
+                  ? "bg-surface text-ink shadow-soft"
+                  : "text-ink-700 hover:text-ink",
+              )}
+              key={mode}
+              onClick={() => selectMode(mode as SearchMode)}
+              type="button"
+            >
+              {config.label}
+            </button>
+          );
+        })}
+      </fieldset>
 
-        <div className="grid min-w-0 flex-1 gap-2">
-          <Label className="sr-only" htmlFor={queryId}>
-            Search query
-          </Label>
-          <div className="border-line bg-surface rounded-pill focus-within:ring-accent grid min-h-14 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 border px-2 py-1.5 focus-within:ring-2">
+      <div className="grid min-w-0 gap-2">
+        <Label className="sr-only" htmlFor={queryId}>
+          Search query
+        </Label>
+
+        <div className="border-line bg-surface rounded-pill focus-within:ring-accent flex min-h-14 w-full items-center gap-2 border px-3 py-2 focus-within:ring-2 sm:min-h-16 sm:px-4">
+          <Button
+            aria-label="Add search criteria"
+            className="size-10 shrink-0 sm:size-11"
+            size="icon"
+            title="Add search criteria"
+            type="button"
+            variant="ghost"
+          >
+            <Plus aria-hidden="true" />
+          </Button>
+
+          <Input
+            aria-describedby={errorMessage ? errorId : undefined}
+            aria-invalid={Boolean(errorMessage)}
+            autoComplete="off"
+            className="text-ink placeholder:text-muted h-auto min-w-0 flex-1 border-0 bg-transparent p-0 text-base font-medium shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 sm:text-lg"
+            id={queryId}
+            onChange={(event) => {
+              setQuery(event.target.value);
+              setErrorMessage("");
+              setStatusMessage("");
+            }}
+            placeholder={searchModes[selectedMode].placeholder}
+            value={query}
+          />
+
+          <div className="flex items-center gap-1">
             <Button
-              aria-label="Add search criteria"
-              className="size-10"
+              aria-label="Search by voice"
+              className="hidden size-10 sm:inline-flex sm:size-11"
               size="icon"
-              title="Add search criteria"
+              title="Search by voice"
               type="button"
               variant="ghost"
             >
-              <Plus aria-hidden="true" />
+              <Mic aria-hidden="true" />
             </Button>
-
-            <Input
-              aria-describedby={errorMessage ? errorId : undefined}
-              aria-invalid={Boolean(errorMessage)}
-              autoComplete="off"
-              className="h-11 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
-              id={queryId}
-              onChange={(event) => {
-                setQuery(event.target.value);
-                setErrorMessage("");
-                setStatusMessage("");
-              }}
-              placeholder={searchModes[selectedMode].placeholder}
-              value={query}
-            />
-
-            <div className="flex items-center gap-1">
-              <Button
-                aria-label="Search by voice"
-                className="hidden size-10 sm:inline-flex"
-                size="icon"
-                title="Search by voice"
-                type="button"
-                variant="ghost"
-              >
-                <Mic aria-hidden="true" />
-              </Button>
-              <Button
-                aria-label="Audio input active"
-                className="hidden size-10 sm:inline-flex"
-                size="icon"
-                title="Audio input active"
-                type="button"
-                variant="ghost"
-              >
-                <Activity aria-hidden="true" />
-              </Button>
-              <Button
-                aria-label="Run search"
-                className="size-10"
-                size="icon"
-                title="Run search"
-                type="submit"
-              >
-                <ArrowUp aria-hidden="true" />
-              </Button>
-            </div>
+            <Button
+              aria-label="Audio input active"
+              className="hidden size-10 sm:inline-flex sm:size-11"
+              size="icon"
+              title="Audio input active"
+              type="button"
+              variant="ghost"
+            >
+              <Activity aria-hidden="true" />
+            </Button>
+            <Button
+              aria-label="Run search"
+              className="size-10 shrink-0 sm:size-12"
+              size="icon"
+              title="Run search"
+              type="submit"
+            >
+              <ArrowUp aria-hidden="true" />
+            </Button>
           </div>
-
-          {errorMessage ? (
-            <p className="text-small text-ink px-3" id={errorId} role="alert">
-              {errorMessage}
-            </p>
-          ) : null}
         </div>
+
+        {errorMessage ? (
+          <p className="text-small text-ink px-3" id={errorId} role="alert">
+            {errorMessage}
+          </p>
+        ) : null}
       </div>
 
       {visibleSuggestions.length > 0 && (
         <div
           aria-label="Search suggestions"
-          className="mt-3 flex gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [-ms-overflow-style:none]"
+          className="mt-3 flex gap-2 overflow-x-auto px-1 pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none]"
           role="group"
         >
           {visibleSuggestions.map((suggestion) => (
