@@ -14,7 +14,6 @@ import { Hero } from "@/sections/Hero";
 import { HomesForYou } from "@/sections/HomesForYou";
 import { MapListing } from "@/sections/MapListing";
 import { News } from "@/sections/News";
-import { SearchBar } from "@/sections/SearchBar";
 import { Trends } from "@/sections/Trends";
 
 export default function Home() {
@@ -24,10 +23,9 @@ export default function Home() {
       <JsonLd data={getBreadcrumbJsonLd()} />
       <JsonLd data={getListingJsonLd(featuredProperties)} />
       <Hero />
-      <SearchBar />
+      <MapListing />
       <FeaturedHomes />
       <HomesForYou />
-      <MapListing />
       <FeatureBand />
       <Discovery />
       <Agents />
