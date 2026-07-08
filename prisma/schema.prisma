@@ -1,0 +1,510 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PropertyMode {
+  BUY
+  RENT
+  SOLD
+}
+
+enum PropertyCategory {
+  NEW_TO_MARKET
+  MOST_VIEWED
+  OPEN_HOUSE
+  PRICE_DROP
+  LUXURY
+  SOLD
+}
+
+enum EditorialType {
+  NEWS
+  ARTICLE
+}
+
+enum LeadSource {
+  CONTACT
+  SAVE_SEARCH
+  PROPERTY_INQUIRY
+  SELL_INQUIRY
+  NEWSLETTER
+}
+
+enum LeadStatus {
+  NEW
+  IN_PROGRESS
+  QUALIFIED
+  CLOSED
+  SPAM
+}
+
+enum AiActorType {
+  CLAUDE
+  CODEX
+  HUMAN
+  REVIEWER
+}
+
+enum AiRecordStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum AiTaskStatus {
+  PLANNED
+  READY
+  IN_PROGRESS
+  IN_REVIEW
+  BLOCKED
+  MERGED
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum AuditStatus {
+  PENDING
+  PASSED
+  FAILED
+  WAIVED
+}
+
+model AdminUser {
+  id             String       @id @default(cuid())
+  externalAuthId String?      @unique
+  email          String       @unique
+  displayName    String
+  role           AdminRole    @default(VIEWER)
+  status         UserStatus   @default(ACTIVE)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  mediaAssets    MediaAsset[]
+  assignedLeads  Lead[]       @relation("AssignedLeads")
+  auditEvents    AuditLog[]   @relation("AuditActor")
+
+  @@map("admin_users")
+}
+
+model MediaAsset {
+  id              String            @id @default(cuid())
+  storageKey      String            @unique
+  url             String
+  mimeType        String
+  width           Int?
+  height          Int?
+  fileSizeBytes   Int?
+  altText         String
+  createdById     String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  createdBy       AdminUser?        @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  propertyImages  PropertyImage[]
+  agentAvatars    RealEstateAgent[] @relation("AgentAvatar")
+  editorialCovers EditorialPost[]   @relation("EditorialCover")
+  discoveryCards  DiscoveryCard[]   @relation("DiscoveryImage")
+
+  @@index([createdById])
+  @@map("media_assets")
+}
+
+model Property {
+  id              String             @id
+  slug            String             @unique
+  title           String
+  address         String
+  city            String
+  state           String
+  priceCents      BigInt
+  priceLabel      String?
+  mode            PropertyMode
+  categories      PropertyCategory[]
+  beds            Int
+  baths           Int
+  squareFeet      Int
+  latitude        Float
+  longitude       Float
+  description     String?
+  featured        Boolean            @default(false)
+  recommended     Boolean            @default(false)
+  status          ContentStatus      @default(DRAFT)
+  listedAt        DateTime
+  publishedAt     DateTime?
+  assignedAgentId String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  assignedAgent   RealEstateAgent?   @relation(fields: [assignedAgentId], references: [id], onDelete: SetNull)
+  images          PropertyImage[]
+  leads           Lead[]
+
+  @@index([status, mode])
+  @@index([featured, status])
+  @@index([assignedAgentId])
+  @@map("properties")
+}
+
+model PropertyImage {
+  id              String     @id @default(cuid())
+  propertyId      String
+  mediaAssetId    String
+  sortOrder       Int        @default(0)
+  altTextOverride String?
+  property        Property   @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  mediaAsset      MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Restrict)
+
+  @@unique([propertyId, sortOrder])
+  @@index([mediaAssetId])
+  @@map("property_images")
+}
+
+model RealEstateAgent {
+  id            String        @id
+  slug          String        @unique
+  name          String
+  agency        String
+  title         String
+  areasServed   String[]
+  bio           String?
+  email         String?
+  phone         String?
+  ratingValue   Float
+  reviewCount   Int
+  featured      Boolean       @default(false)
+  status        ContentStatus @default(DRAFT)
+  avatarMediaId String?
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  avatarMedia   MediaAsset?   @relation("AgentAvatar", fields: [avatarMediaId], references: [id], onDelete: SetNull)
+  properties    Property[]
+  leads         Lead[]        @relation("LeadAgent")
+
+  @@index([status, featured])
+  @@index([avatarMediaId])
+  @@map("real_estate_agents")
+}
+
+model EditorialPost {
+  id           String        @id
+  slug         String        @unique
+  type         EditorialType
+  title        String
+  excerpt      String
+  body         String?
+  author       String?
+  category     String?
+  tag          String?
+  featured     Boolean       @default(false)
+  status       ContentStatus @default(DRAFT)
+  coverMediaId String?
+  publishedAt  DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  coverMedia   MediaAsset?   @relation("EditorialCover", fields: [coverMediaId], references: [id], onDelete: SetNull)
+
+  @@index([type, status, publishedAt])
+  @@index([coverMediaId])
+  @@map("editorial_posts")
+}
+
+model SiteNavItem {
+  id        String        @id
+  location  String        @default("primary")
+  label     String
+  href      String
+  ariaLabel String?
+  sortOrder Int
+  status    ContentStatus @default(DRAFT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@unique([location, sortOrder])
+  @@index([location, status])
+  @@map("site_nav_items")
+}
+
+model FooterColumn {
+  id        String        @id
+  heading   String
+  sortOrder Int
+  status    ContentStatus @default(DRAFT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  links     FooterLink[]
+
+  @@unique([sortOrder])
+  @@map("footer_columns")
+}
+
+model FooterLink {
+  id        String       @id
+  columnId  String
+  label     String
+  href      String
+  external  Boolean      @default(false)
+  sortOrder Int
+  column    FooterColumn @relation(fields: [columnId], references: [id], onDelete: Cascade)
+
+  @@unique([columnId, sortOrder])
+  @@map("footer_links")
+}
+
+model SocialLink {
+  id        String        @id
+  platform  String
+  href      String
+  ariaLabel String
+  sortOrder Int
+  status    ContentStatus @default(DRAFT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@unique([sortOrder])
+  @@map("social_links")
+}
+
+model SearchSuggestion {
+  id        String        @id
+  label     String
+  query     String
+  mode      String        @default("all")
+  sortOrder Int
+  status    ContentStatus @default(DRAFT)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@unique([mode, sortOrder])
+  @@index([status, mode])
+  @@map("search_suggestions")
+}
+
+model FilterChip {
+  id            String        @id
+  label         String
+  value         String
+  defaultActive Boolean       @default(false)
+  sortOrder     Int
+  status        ContentStatus @default(DRAFT)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([sortOrder])
+  @@map("filter_chips")
+}
+
+model DiscoveryCard {
+  id           String        @id
+  label        String
+  heading      String
+  description  String
+  href         String
+  imageMediaId String?
+  sortOrder    Int
+  status       ContentStatus @default(DRAFT)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  imageMedia   MediaAsset?   @relation("DiscoveryImage", fields: [imageMediaId], references: [id], onDelete: SetNull)
+
+  @@unique([sortOrder])
+  @@index([imageMediaId])
+  @@map("discovery_cards")
+}
+
+model SiteCopy {
+  id          String        @id @default(cuid())
+  key         String        @unique
+  value       Json
+  description String?
+  status      ContentStatus @default(DRAFT)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+  @@map("site_copy")
+}
+
+model Lead {
+  id              String           @id @default(cuid())
+  source          LeadSource
+  name            String?
+  email           String
+  phone           String?
+  message         String?
+  propertyId      String?
+  assignedAgentId String?
+  assignedUserId  String?
+  status          LeadStatus       @default(NEW)
+  internalNotes   String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  property        Property?        @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  assignedAgent   RealEstateAgent? @relation("LeadAgent", fields: [assignedAgentId], references: [id], onDelete: SetNull)
+  assignedUser    AdminUser?       @relation("AssignedLeads", fields: [assignedUserId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([propertyId])
+  @@index([assignedAgentId])
+  @@index([assignedUserId])
+  @@map("leads")
+}
+
+model AiAgent {
+  id             String         @id @default(cuid())
+  name           String         @unique
+  type           AiActorType
+  responsibility String
+  allowedPaths   String[]
+  forbiddenPaths String[]
+  status         AiRecordStatus @default(ACTIVE)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  skills         AiSkill[]
+  ownedTasks     AiTask[]       @relation("TaskOwnerAgent")
+
+  @@map("ai_agents")
+}
+
+model AiSkill {
+  id                    String         @id @default(cuid())
+  name                  String         @unique
+  description           String
+  ownerAgentId          String?
+  requiredInputs        String[]
+  expectedOutputs       String[]
+  verificationChecklist String[]
+  status                AiRecordStatus @default(ACTIVE)
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+  ownerAgent            AiAgent?       @relation(fields: [ownerAgentId], references: [id], onDelete: SetNull)
+
+  @@index([ownerAgentId])
+  @@map("ai_skills")
+}
+
+model AiRule {
+  id        String         @id @default(cuid())
+  title     String
+  category  String
+  severity  String
+  ruleText  String
+  appliesTo String[]
+  active    Boolean        @default(true)
+  status    AiRecordStatus @default(ACTIVE)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([category, active])
+  @@map("ai_rules")
+}
+
+model QualityStandard {
+  id               String         @id @default(cuid())
+  category         String
+  requirement      String
+  evidenceRequired String
+  gateMapping      String
+  status           AiRecordStatus @default(ACTIVE)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([category])
+  @@map("quality_standards")
+}
+
+model AiTask {
+  id                   String          @id
+  title                String
+  ownerName            String
+  ownerAgentId         String?
+  agentRole            String
+  status               AiTaskStatus    @default(PLANNED)
+  priority             TaskPriority    @default(MEDIUM)
+  branch               String?
+  allowedFiles         String[]
+  forbiddenFiles       String[]
+  verificationCommands String[]
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  ownerAgent           AiAgent?        @relation("TaskOwnerAgent", fields: [ownerAgentId], references: [id], onDelete: SetNull)
+  handoffs             AiTaskHandoff[]
+  auditRuns            AuditRun[]
+
+  @@index([status, priority])
+  @@index([ownerAgentId])
+  @@map("ai_tasks")
+}
+
+model AiTaskHandoff {
+  id           String   @id @default(cuid())
+  taskId       String
+  filesTouched String[]
+  commandsRun  String[]
+  result       String
+  nextStep     String?
+  reviewLink   String?
+  createdAt    DateTime @default(now())
+  task         AiTask   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId, createdAt])
+  @@map("ai_task_handoffs")
+}
+
+model AuditRun {
+  id           String      @id @default(cuid())
+  gate         String
+  taskId       String?
+  status       AuditStatus @default(PENDING)
+  evidencePath String?
+  reviewer     String?
+  completedAt  DateTime?
+  createdAt    DateTime    @default(now())
+  task         AiTask?     @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@index([taskId, gate])
+  @@map("audit_runs")
+}
+
+model AuditLog {
+  id         String     @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String
+  before     Json?
+  after      Json?
+  metadata   Json?
+  createdAt  DateTime   @default(now())
+  actor      AdminUser? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([actorId, createdAt])
+  @@map("audit_logs")
+}

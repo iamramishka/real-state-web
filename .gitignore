@@ -20,6 +20,10 @@ dist/
 .env.test.local
 .env.production.local
 
+# Local database artifacts
+*.db
+*.db-journal
+
 # Testing / coverage
 coverage/
 playwright-report/
