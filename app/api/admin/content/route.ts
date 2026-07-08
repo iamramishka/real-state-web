@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
 
 import { adminContentModules } from "@/lib/admin/config";
+import { getCurrentAdminSession } from "@/lib/auth/server";
 
-export function GET() {
+export async function GET() {
+  const session = await getCurrentAdminSession();
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   return NextResponse.json(
     {
       modules: adminContentModules,
@@ -17,7 +24,13 @@ export function GET() {
   );
 }
 
-export function POST() {
+export async function POST() {
+  const session = await getCurrentAdminSession();
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   return NextResponse.json(
     {
       message:

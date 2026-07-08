@@ -7,8 +7,15 @@ import {
   adminOperationsModules,
   adminPhase,
 } from "@/lib/admin/config";
+import { getCurrentAdminSession } from "@/lib/auth/server";
 
-export function GET() {
+export async function GET() {
+  const session = await getCurrentAdminSession();
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   return NextResponse.json(
     {
       backendPaths: adminBackendPaths,

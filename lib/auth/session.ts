@@ -62,11 +62,18 @@ export function hasAdminPermission(
 export function getAdminRoleFromEnv(): AdminRole {
   const role = process.env.ADMIN_ROLE;
 
-  if (role && adminRoles.includes(role as AdminRole)) {
-    return role as AdminRole;
+  if (!role) {
+    return "admin";
   }
 
-  return "owner";
+  if (!adminRoles.includes(role as AdminRole)) {
+    console.warn(
+      `[auth] ADMIN_ROLE "${role}" is not a valid role. Defaulting to "admin".`,
+    );
+    return "admin";
+  }
+
+  return role as AdminRole;
 }
 
 export function getAdminAuthConfigStatus() {
@@ -107,7 +114,10 @@ export async function validateAdminCredentials(input: {
   const passwordMatches =
     (configuredPassword && input.password === configuredPassword) ||
     (configuredPasswordHash &&
-      (await hashPassword(input.password)) === configuredPasswordHash);
+      (await timingSafeEqual(
+        await hashPassword(input.password),
+        configuredPasswordHash,
+      )));
 
   if (configuredEmail && normalizedEmail === configuredEmail.toLowerCase()) {
     return passwordMatches
@@ -225,6 +235,36 @@ export async function hashPassword(password: string) {
   );
 
   return bytesToBase64Url(new Uint8Array(digest));
+}
+
+async function timingSafeEqual(value: string, expected: string) {
+  const encoder = new TextEncoder();
+  const verificationKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(value),
+    { hash: "SHA-256", name: "HMAC" },
+    false,
+    ["verify"],
+  );
+  const signingKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(expected),
+    { hash: "SHA-256", name: "HMAC" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    signingKey,
+    new Uint8Array(),
+  );
+
+  return crypto.subtle.verify(
+    "HMAC",
+    verificationKey,
+    signature,
+    new Uint8Array(),
+  );
 }
 
 function getSessionSecret() {

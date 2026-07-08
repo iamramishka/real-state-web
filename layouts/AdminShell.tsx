@@ -78,7 +78,7 @@ export function AdminShell({ children, session }: AdminShellProps) {
               {session?.email ?? "Admin"}
             </p>
             <p className="text-small text-muted mt-1 capitalize">
-              {session?.role ?? "owner"}
+              {session?.role ?? "–"}
             </p>
             <form
               action="/api/admin/auth/logout"
